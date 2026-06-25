@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__dadd4806-f0f0-483f-ba56-9139a1d63eee__balance",
+      "mcp__dadd4806-f0f0-483f-ba56-9139a1d63eee__models_explore",
+      "mcp__dadd4806-f0f0-483f-ba56-9139a1d63eee__show_marketing_studio",
+      "Read(//Users/alexfayerberg/.claude/**)",
+      "Read(//Users/alexfayerberg/.claude/skills/**)",
+      "Bash(cat ~/.claude/skills/anthropic-skills/*/SKILL.md)",
+      "Read(//Users/alexfayerberg/Documents/Newsletter/=== ADS/**)",
+      "Read(//Users/alexfayerberg/Documents/Newsletter/**)",
+      "Bash(npm --version)",
+      "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(python3 /tmp/genicons.py)"
+    ]
+  }
+}
