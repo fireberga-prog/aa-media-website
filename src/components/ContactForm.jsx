@@ -45,7 +45,7 @@ export default function ContactForm() {
   if (submitted) {
     return (
       <div className="rounded-md border border-hairline p-8 text-center">
-        <p className="font-heading text-xl uppercase tracking-wide">Thanks</p>
+        <p className="font-heading text-2xl font-bold tracking-tight">Thanks</p>
         <p className="mt-3 text-base text-ink/70">
           Thanks — we'll be in touch to set up your call.
         </p>
@@ -117,7 +117,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="w-full rounded-md bg-ink px-6 py-4 text-base font-medium text-white transition hover:bg-ink/85 disabled:opacity-60 sm:w-auto"
+        className="w-full rounded-md border border-ink bg-ink px-7 py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-ink disabled:hover:text-white sm:w-auto"
       >
         {status === "sending" ? "Sending…" : "Book a call"}
       </button>

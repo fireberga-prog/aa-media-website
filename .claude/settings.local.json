@@ -11,7 +11,27 @@
       "Read(//Users/alexfayerberg/Documents/Newsletter/**)",
       "Bash(npm --version)",
       "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
-      "Bash(python3 /tmp/genicons.py)"
+      "Bash(python3 /tmp/genicons.py)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174/)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(ls -la *.png)",
+      "Read(//Users/alexfayerberg/Downloads/**)",
+      "Bash(sips -g pixelWidth -g pixelHeight public/aa-media-logo.png)",
+      "Bash(python3 -)",
+      "Bash(ffmpeg -version)",
+      "Bash(mv \"DraftResource_1746827995.699928.MOV\" reel-1.mp4)",
+      "Bash(mv \"DraftResource_1747502295.191027.MOV\" reel-2.mp4)",
+      "Bash(mv \"centrestfoodpantrybirthdayprogram.mov\" centre-st-food-pantry.mp4)",
+      "Bash(qlmanage -t -s 720 -o . __TRACKED_VAR__.mp4)",
+      "Bash([ -f \"$f.mp4.png\" ])",
+      "Bash(mv __TRACKED_VAR__.mp4.png __TRACKED_VAR__.jpg)",
+      "Bash(mv __TRACKED_VAR__.mp4.png __TRACKED_VAR__.png)",
+      "Bash(sips -s format jpeg __TRACKED_VAR__.jpg --out __TRACKED_VAR__.jpg)",
+      "Bash(ls -la *.jpg)",
+      "Bash(sips -g format __TRACKED_VAR__.jpg)"
     ]
   }
 }

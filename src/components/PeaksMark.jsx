@@ -1,5 +1,6 @@
 // Subtle inline "AA peaks" mark — two thin overlapping mountain peaks echoing the logo.
-// Used as a large, light background accent in the hero. The real logo image is /public/logo.png.
+// Used ONLY as a quiet, low-opacity background motif (just the peaks, no wordmark).
+// The actual brand logo is the image file public/aa-media-logo.png.
 export default function PeaksMark({ className = "" }) {
   return (
     <svg

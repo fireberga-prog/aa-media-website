@@ -8,8 +8,8 @@ export default {
         hairline: "#E5E5E5",
       },
       fontFamily: {
-        heading: ['"Jost"', "system-ui", "sans-serif"],
-        body: ['"Inter"', "system-ui", "sans-serif"],
+        heading: ['"Space Grotesk"', "system-ui", "sans-serif"],
+        body: ['"Plus Jakarta Sans"', "system-ui", "sans-serif"],
       },
     },
   },
