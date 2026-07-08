@@ -328,12 +328,10 @@ function Nav() {
 // Headline split into words so each can stagger in. `bold` words carry extra
 // weight for contrast — the copy itself is unchanged.
 const HERO_WORDS = [
-  { text: "Short-form", bold: true },
-  { text: "content" },
-  { text: "that" },
-  { text: "grows", bold: true },
-  { text: "your" },
-  { text: "social", bold: true },
+  { text: "Growing", bold: true },
+  { text: "communities", bold: true },
+  { text: "through" },
+  { text: "creative", bold: true },
   { text: "media.", bold: true },
 ];
 
@@ -385,7 +383,7 @@ function Hero() {
             />
             <WordMark className="text-lg text-ink sm:text-2xl" />
           </motion.div>
-          <h1 className="font-heading text-[3.4rem] font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
+          <h1 className="font-heading text-[clamp(2.4rem,13.5vw,3.4rem)] font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
             {HERO_WORDS.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <motion.span
@@ -404,8 +402,8 @@ function Hero() {
             variants={fadeUp}
             className="mt-8 max-w-xl text-lg leading-relaxed text-ink/70 sm:text-xl"
           >
-            A&amp;A Media films promotional video and builds your social accounts
-            — so your business gets seen.
+            A&amp;A Media creates engaging content that helps organizations
+            connect with more people online.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-12">
             <BookButton className="px-9 py-4" />
@@ -453,7 +451,7 @@ function Marquee() {
 // Full-width brand statement — a single punchy line in large type, framed by
 // hairlines and a quiet peaks motif to fill space without clutter.
 // Edit STATEMENT_LINE below; keep it a brand line, not a claim or number.
-const STATEMENT_LINE = "We make content that gets your business seen.";
+const STATEMENT_LINE = "Content that tells your story.";
 
 function StatementBand() {
   return (
