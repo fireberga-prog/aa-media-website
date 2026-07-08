@@ -237,12 +237,12 @@ function TikTokIcon({ className = "", strokeWidth = 1.5 }) {
 const SOCIAL_LINKS = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/officialaandamedia/",
+    href: "https://www.instagram.com/aand.amedia/",
     Icon: Instagram,
   },
   {
     label: "TikTok",
-    href: "https://www.tiktok.com/@officialaandamedia",
+    href: "https://www.tiktok.com/@aa.media98",
     Icon: TikTokIcon,
   },
 ];
