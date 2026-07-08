@@ -538,7 +538,7 @@ const SHOW_WORK = true;
    These three are PLACEHOLDERS — replace them with real work before launch. */
 const works = [
   { title: "Cafe St. Petersburg", category: "Short-form video", video: "/work/reel-1.mp4", thumbnail: "/work/reel-1.jpg", href: undefined },
-  { title: "Lockhart", category: "Short-form video", video: "/work/reel-2.mp4", thumbnail: "/work/reel-2.jpg", href: undefined },
+  { title: "Lockheart", category: "Short-form video", video: "/work/reel-2.mp4", thumbnail: "/work/reel-2.jpg", href: undefined },
   { title: "Centre Street Food Pantry", category: "Short-form video", video: "/work/centre-st-food-pantry.mp4", thumbnail: "/work/centre-st-food-pantry.jpg", href: undefined },
 ];
 
