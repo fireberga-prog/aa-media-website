@@ -9,7 +9,16 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Video, TrendingUp, ArrowUp, Play, Volume2, VolumeX } from "lucide-react";
+import {
+  Camera,
+  CalendarCheck,
+  Target,
+  Instagram,
+  ArrowUp,
+  Play,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import ContactForm from "./components/ContactForm.jsx";
 import PeaksMark from "./components/PeaksMark.jsx";
 
@@ -201,6 +210,59 @@ function WordMark({ className = "" }) {
     >
       A&amp;A&nbsp;Media
     </span>
+  );
+}
+
+// Original outline TikTok glyph drawn to match lucide's stroke style
+// (lucide ships an Instagram icon but no TikTok one).
+function TikTokIcon({ className = "", strokeWidth = 1.5 }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M14 4v10.5a4.5 4.5 0 1 1-4.5-4.5" />
+      <path d="M14 4a6 6 0 0 0 6 6" />
+    </svg>
+  );
+}
+
+// The real A&A profiles. Icon buttons invert to black on hover.
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/officialaandamedia/",
+    Icon: Instagram,
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@officialaandamedia",
+    Icon: TikTokIcon,
+  },
+];
+
+function SocialLinks({ className = "" }) {
+  return (
+    <div className={"flex items-center gap-3 " + className}>
+      {SOCIAL_LINKS.map(({ label, href, Icon }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={"A&A Media on " + label}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-hairline text-ink transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-white"
+        >
+          <Icon className="h-5 w-5" strokeWidth={1.5} />
+        </a>
+      ))}
+    </div>
   );
 }
 
@@ -435,14 +497,18 @@ function WhatWeDo() {
         <Reveal>
           <SectionHeading number="01">What we do</SectionHeading>
         </Reveal>
-        <Reveal stagger className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
-          <ServiceCard icon={Video} title="Short-form promo content">
-            We film short, scroll-stopping promotional videos for your business —
-            the kind that actually performs on Reels, TikTok, and Shorts.
+        <Reveal stagger className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+          <ServiceCard icon={Camera} title="Content creation">
+            Professional photos and short form videos that showcase your
+            organization and tell your story.
           </ServiceCard>
-          <ServiceCard icon={TrendingUp} title="Social media growth">
-            We run and grow your social accounts — posting consistently and
-            on-brand, so your reach and following climb over time.
+          <ServiceCard icon={CalendarCheck} title="Social media management">
+            We plan, post, and manage your content to keep your social media
+            active and engaging.
+          </ServiceCard>
+          <ServiceCard icon={Target} title="Content strategy">
+            We work with you to develop a content plan that aligns with your
+            goals and reaches your audience.
           </ServiceCard>
         </Reveal>
       </Container>
@@ -910,6 +976,7 @@ function Contact() {
             </a>
             .
           </p>
+          <SocialLinks className="mt-6" />
           <div className="mt-12">
             <ContactForm />
           </div>
@@ -932,6 +999,7 @@ function Footer() {
             </p>
           </div>
           <div className="flex flex-col gap-3 text-sm text-ink/60 sm:items-end">
+            <SocialLinks className="self-start sm:self-end" />
             <a
               href="mailto:officialaandamedia@gmail.com"
               className="link-underline self-start text-ink/70 transition-colors hover:text-ink sm:self-end"
