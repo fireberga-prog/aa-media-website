@@ -637,16 +637,20 @@ function OurWork() {
    motion welcome) and the plain stacked layout (mobile / reduced motion). */
 const STEPS = [
   {
-    title: "Book a call",
-    body: "Tell us about your business and what you want from social.",
+    title: "Meet",
+    body: "Book a consultation and tell us about your business, goals, and target audience.",
   },
   {
-    title: "We build your plan",
-    body: "We map out the content and posting strategy that fits your goals.",
+    title: "Content planning",
+    body: "Together we create a content strategy and filming schedule.",
   },
   {
-    title: "We film and grow",
-    body: "We create the content and run your accounts while you focus on your business.",
+    title: "Production",
+    body: "We capture professional photos and videos that showcase your business.",
+  },
+  {
+    title: "Delivery & growth",
+    body: "Your content is posted and optimized to maximize engagement and reach.",
   },
 ];
 
@@ -677,7 +681,7 @@ function HowItWorksStatic() {
           <SectionHeading number="03">How it works</SectionHeading>
         </Reveal>
         <Reveal>
-          <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-10">
+          <ol className="relative mt-14 grid gap-10 md:grid-cols-4 md:gap-8">
             {/* Connecting line, aligned to the center of the 48px markers. */}
             <motion.span
               className="pointer-events-none absolute left-6 top-6 bottom-6 w-px origin-top bg-ink/20 md:hidden"
@@ -687,7 +691,7 @@ function HowItWorksStatic() {
               transition={{ duration: 0.9, ease: "easeInOut" }}
             />
             <motion.span
-              className="pointer-events-none absolute top-6 left-[16.666%] right-[16.666%] hidden h-px origin-left bg-ink/20 md:block"
+              className="pointer-events-none absolute top-6 left-[12.5%] right-[12.5%] hidden h-px origin-left bg-ink/20 md:block"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.6 }}
@@ -721,14 +725,14 @@ function HowItWorksPinned() {
   const lineScale = useSpring(scrollYProgress, { stiffness: 140, damping: 30 });
 
   return (
-    <section ref={ref} className="relative h-[240vh] border-t border-hairline">
+    <section ref={ref} className="relative h-[280vh] border-t border-hairline">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <Container>
           <SectionHeading number="03">How it works</SectionHeading>
-          <ol className="relative mt-16 grid grid-cols-3 gap-10">
+          <ol className="relative mt-16 grid grid-cols-4 gap-8">
             {/* Connecting line, drawn by scroll progress. */}
             <motion.span
-              className="pointer-events-none absolute top-6 left-[16.666%] right-[16.666%] h-px origin-left bg-ink/25"
+              className="pointer-events-none absolute top-6 left-[12.5%] right-[12.5%] h-px origin-left bg-ink/25"
               style={{ scaleX: lineScale }}
               aria-hidden="true"
             />
@@ -795,17 +799,23 @@ function About() {
           <SectionHeading number="04">Who's behind A&amp;A</SectionHeading>
           <div className="mt-8 max-w-2xl space-y-5 text-lg leading-relaxed text-ink/70">
             <p>
-              A&amp;A Media is run by Alex and Andrew. We're a small, hands-on
-              team — which means you work directly with the people making your
-              content, not a faceless agency.
+              A&amp;A Media is a creative media agency founded by two high school
+              students with a passion for storytelling, digital marketing, and
+              making a positive impact in our community.
             </p>
             <p>
-              We help businesses and nonprofits build a real online presence —
-              creating the content and growing the accounts that put your work in
-              front of the people who matter most.
+              Our mission is to help local nonprofits, charities, and small
+              businesses grow their online presence through engaging short-form
+              videos and social media content. We believe every organization has
+              a story worth sharing, and our goal is to help those stories reach
+              more people.
             </p>
-            {/* [ABOUT PLACEHOLDER — Alex & Andrew: add 1–2 real sentences on your
-                background and why you started A&A. Do not invent anything.] */}
+            <p>
+              By combining creativity with thoughtful strategy, we create content
+              that not only looks professional but also helps organizations
+              expand their reach, strengthen their brand, and connect with the
+              communities they serve.
+            </p>
           </div>
         </Reveal>
       </Container>
@@ -854,32 +864,26 @@ function Faq() {
         </Reveal>
         <Reveal stagger className="mt-12">
           <FaqItem question="How much does it cost?">
-            There's no one-size-fits-all price, because there's no one-size-fits-all
-            business. Your investment depends on your goals, your platforms, and the
-            scope of content you need — and we'll tailor a package to fit. Book a
-            call and we'll put real numbers in front of you.
-          </FaqItem>
-          <FaqItem question="Are there contracts?">
-            We work on a minimum commitment, and for good reason: short-form content
-            and social growth compound over time. A short runway lets us build real
-            momentum for your brand instead of chasing a quick spike. We'll walk you
-            through the specifics on our call.
+            Our pricing depends on your goals and the services you need. Before
+            talking numbers, we offer a complimentary trial video so you can see
+            the value we provide and determine if we're the right partner for
+            your business.
           </FaqItem>
           <FaqItem question="What do you need from me to get started?">
-            Just a conversation. Hop on a quick call or meeting with us, tell us about
-            your business, and we'll handle the rest — mapping out your content,
-            strategy, and every next step from there.
+            Just bring your ideas. We'll listen to your goals, learn about your
+            business, and work alongside you to create content that represents
+            your brand.
           </FaqItem>
           <FaqItem question="How fast will I see results?">
-            We move fast. It takes roughly a week to get everything set up and the
-            cameras rolling. From there, we create and post consistently — because
-            steady, on-brand content is what builds lasting reach, not a one-off
-            viral moment.
+            After meeting with you, we'll develop a content plan and usually begin
+            filming within a week. Growing on social media takes consistency, and
+            we'll work with you to create content that keeps your audience
+            engaged.
           </FaqItem>
           <FaqItem question="Which platforms do you cover?">
-            We specialize in Instagram and TikTok — the two homes of short-form video,
-            and where scroll-stopping content earns the most attention. That focus is
-            exactly what lets us do it well.
+            We're happy to work across any social media platform. We have the most
+            experience with Instagram and TikTok, but our content can be adapted
+            for Facebook, YouTube Shorts, LinkedIn, and more.
           </FaqItem>
         </Reveal>
       </Container>
