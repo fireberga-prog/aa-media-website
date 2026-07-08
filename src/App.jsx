@@ -992,8 +992,7 @@ function Footer() {
           <div>
             <BrandLockup imgClass="h-12 w-auto" textClass="text-base" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink/60">
-              Short-form content and social media growth for businesses that
-              want to be seen.
+              Short-form content and social media growth for organizations.
             </p>
           </div>
           <div className="flex flex-col gap-3 text-sm text-ink/60 sm:items-end">
