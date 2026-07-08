@@ -328,11 +328,10 @@ function Nav() {
 // Headline split into words so each can stagger in. `bold` words carry extra
 // weight for contrast — the copy itself is unchanged.
 const HERO_WORDS = [
-  { text: "Growing", bold: true },
-  { text: "communities", bold: true },
-  { text: "through" },
-  { text: "creative", bold: true },
-  { text: "media.", bold: true },
+  { text: "TJ", bold: true },
+  { text: "max", bold: true },
+  { text: "is" },
+  { text: "tiring", bold: true },
 ];
 
 function Hero() {
