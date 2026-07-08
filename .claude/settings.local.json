@@ -31,7 +31,11 @@
       "Bash(mv __TRACKED_VAR__.mp4.png __TRACKED_VAR__.png)",
       "Bash(sips -s format jpeg __TRACKED_VAR__.jpg --out __TRACKED_VAR__.jpg)",
       "Bash(ls -la *.jpg)",
-      "Bash(sips -g format __TRACKED_VAR__.jpg)"
+      "Bash(sips -g format __TRACKED_VAR__.jpg)",
+      "Read(//Users/alexfayerberg/Library/Caches/ms-playwright/**)",
+      "Bash(npm ls *)",
+      "Bash(npm init *)",
+      "Bash(npm i *)"
     ]
   }
 }

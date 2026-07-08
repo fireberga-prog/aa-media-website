@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, MotionConfig, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  MotionConfig,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Video, TrendingUp, ArrowUp, Play, Volume2, VolumeX } from "lucide-react";
 import ContactForm from "./components/ContactForm.jsx";
 import PeaksMark from "./components/PeaksMark.jsx";
@@ -22,10 +31,86 @@ function Container({ className = "", children }) {
   );
 }
 
-// Fade/slide-in as the element enters the viewport. Motion is opt-out via
+// Slim scroll-progress bar pinned above the header.
+function ScrollProgress() {
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  const smoothed = useSpring(scrollYProgress, {
+    stiffness: 220,
+    damping: 36,
+    restDelta: 0.001,
+  });
+  return (
+    <motion.div
+      className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-ink"
+      style={{ scaleX: reduce ? scrollYProgress : smoothed }}
+      aria-hidden="true"
+    />
+  );
+}
+
+// Magnetic hover: the wrapped element leans gently toward the cursor and
+// springs back on leave. Pointer-only; inert for reduced-motion visitors.
+function Magnetic({ className = "", strength = 0.2, children }) {
+  const reduce = useReducedMotion();
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 260, damping: 20, mass: 0.5 });
+  const springY = useSpring(y, { stiffness: 260, damping: 20, mass: 0.5 });
+
+  function onMouseMove(e) {
+    if (reduce) return;
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - (rect.left + rect.width / 2)) * strength);
+    y.set((e.clientY - (rect.top + rect.height / 2)) * strength);
+  }
+  function onMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.span
+      ref={ref}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ x: springX, y: springY }}
+      className={"inline-block " + className}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+// Low-opacity peaks motif with a gentle scroll parallax. Purely decorative;
+// holds still for reduced-motion visitors.
+function ParallaxPeaks({ className = "", markClassName = "", distance = 36 }) {
+  const reduce = useReducedMotion();
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [distance, -distance]);
+  return (
+    <motion.div
+      ref={ref}
+      style={reduce ? undefined : { y }}
+      className={"pointer-events-none absolute " + className}
+      aria-hidden="true"
+    >
+      <PeaksMark className={"h-full w-full " + markClassName} />
+    </motion.div>
+  );
+}
+
+// Fade/slide-in as the element enters the viewport. With `stagger`, direct
+// children cascade in one after another. Motion is opt-out via
 // prefers-reduced-motion (handled in index.css — without it, .reveal has no
 // hidden state, so content shows immediately).
-function Reveal({ as: Tag = "div", className = "", children, ...rest }) {
+function Reveal({ as: Tag = "div", className = "", stagger = false, children, ...rest }) {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
@@ -45,7 +130,11 @@ function Reveal({ as: Tag = "div", className = "", children, ...rest }) {
     return () => io.disconnect();
   }, []);
   return (
-    <Tag ref={ref} className={"reveal " + className} {...rest}>
+    <Tag
+      ref={ref}
+      className={(stagger ? "reveal-stagger " : "reveal ") + className}
+      {...rest}
+    >
       {children}
     </Tag>
   );
@@ -78,22 +167,25 @@ function SectionHeading({ number, kicker, children }) {
   );
 }
 
-// Solid black button that inverts to a clean outline on hover.
+// Solid black button that inverts to a clean outline on hover, with a
+// magnetic lean toward the cursor.
 function BookButton({ className = "", children = "Book a call" }) {
   return (
-    <a
-      href="#contact"
-      onClick={(e) => {
-        e.preventDefault();
-        smoothScrollTo("contact");
-      }}
-      className={
-        "inline-flex items-center justify-center rounded-md border border-ink bg-ink px-7 py-3.5 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink " +
-        className
-      }
-    >
-      {children}
-    </a>
+    <Magnetic>
+      <a
+        href="#contact"
+        onClick={(e) => {
+          e.preventDefault();
+          smoothScrollTo("contact");
+        }}
+        className={
+          "inline-flex items-center justify-center rounded-md border border-ink bg-ink px-7 py-3.5 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink " +
+          className
+        }
+      >
+        {children}
+      </a>
+    </Magnetic>
   );
 }
 
@@ -143,7 +235,12 @@ function Nav() {
           : "border-b border-transparent")
       }
     >
-      <Container className="flex items-center justify-between py-4">
+      <Container
+        className={
+          "flex items-center justify-between transition-[padding] duration-300 " +
+          (scrolled ? "py-2.5" : "py-4")
+        }
+      >
         <a
           href="#top"
           onClick={(e) => {
@@ -153,7 +250,10 @@ function Nav() {
           className="flex items-center"
         >
           <BrandLockup
-            imgClass="h-11 w-auto sm:h-12"
+            imgClass={
+              "w-auto transition-all duration-300 " +
+              (scrolled ? "h-9 sm:h-10" : "h-11 sm:h-12")
+            }
             textClass="text-sm sm:text-base"
           />
         </a>
@@ -199,8 +299,13 @@ function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden">
-      {/* Large, quiet peaks motif that slowly drifts — keeps the first screen alive. */}
-      <PeaksMark className="hero-drift pointer-events-none absolute -right-16 top-4 h-72 w-[34rem] opacity-[0.05] sm:-right-10 sm:h-[30rem] sm:w-[44rem]" />
+      {/* Large, quiet peaks motif — slow drift + scroll parallax keeps the
+          first screen alive without noise. */}
+      <ParallaxPeaks
+        className="-right-16 top-4 h-72 w-[34rem] opacity-[0.05] sm:-right-10 sm:h-[30rem] sm:w-[44rem]"
+        markClassName="hero-drift"
+        distance={48}
+      />
       <Container className="relative flex min-h-[88vh] flex-col justify-center py-24 sm:min-h-[90vh] sm:py-32">
         <motion.div
           className="max-w-4xl"
@@ -218,7 +323,7 @@ function Hero() {
             />
             <WordMark className="text-lg text-ink sm:text-2xl" />
           </motion.div>
-          <h1 className="font-heading text-[3.4rem] font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-[5.5rem]">
+          <h1 className="font-heading text-[3.4rem] font-bold leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl">
             {HERO_WORDS.map((w, i) => (
               <span key={i} className="inline-block overflow-hidden align-bottom">
                 <motion.span
@@ -229,7 +334,7 @@ function Hero() {
                 >
                   {w.text}
                 </motion.span>
-                {i < HERO_WORDS.length - 1 ? "\u00A0" : ""}
+                {i < HERO_WORDS.length - 1 ? " " : ""}
               </span>
             ))}
           </h1>
@@ -291,7 +396,11 @@ const STATEMENT_LINE = "We make content that gets your business seen.";
 function StatementBand() {
   return (
     <section className="relative overflow-hidden border-y border-hairline bg-ink">
-      <PeaksMark className="pointer-events-none absolute -right-10 -top-10 h-72 w-[34rem] opacity-[0.08] [stroke:#fff] sm:h-96 sm:w-[46rem]" />
+      <ParallaxPeaks
+        className="-right-10 -top-10 h-72 w-[34rem] opacity-[0.08] sm:h-96 sm:w-[46rem]"
+        markClassName="[stroke:#fff]"
+        distance={28}
+      />
       <Container className="relative py-20 sm:py-28">
         <Reveal>
           <p className="max-w-4xl font-heading text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
@@ -326,7 +435,7 @@ function WhatWeDo() {
         <Reveal>
           <SectionHeading number="01">What we do</SectionHeading>
         </Reveal>
-        <Reveal className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
+        <Reveal stagger className="mt-14 grid gap-6 md:grid-cols-2 md:gap-8">
           <ServiceCard icon={Video} title="Short-form promo content">
             We film short, scroll-stopping promotional videos for your business —
             the kind that actually performs on Reels, TikTok, and Shorts.
@@ -427,13 +536,14 @@ function WorkTile({ title, category, video, thumbnail, href }) {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             onTimeUpdate={loopFirstHalf}
           />
         ) : thumbnail ? (
           <img
             src={thumbnail}
             alt={title}
+            loading="lazy"
             className="h-full w-full scale-100 object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         ) : (
@@ -497,7 +607,10 @@ function OurWork() {
       className="relative overflow-hidden border-t border-hairline"
     >
       {/* Quiet peaks motif anchoring the showcase. */}
-      <PeaksMark className="pointer-events-none absolute -right-24 top-24 h-80 w-[40rem] opacity-[0.04]" />
+      <ParallaxPeaks
+        className="-right-24 top-24 h-80 w-[40rem] opacity-[0.04]"
+        distance={32}
+      />
       {/* Wider container so the showcase feels immersive and anchors the page. */}
       <div className="relative mx-auto w-full max-w-6xl px-6 py-24 sm:px-8 sm:py-32">
         <Reveal>
@@ -506,7 +619,10 @@ function OurWork() {
             {/* [SUBHEAD PLACEHOLDER — one line about the kind of work you do] */}
           </p>
         </Reveal>
-        <Reveal className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-12">
+        <Reveal
+          stagger
+          className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-12"
+        >
           {works.map((work, i) => (
             <WorkTile key={i} {...work} />
           ))}
@@ -515,6 +631,24 @@ function OurWork() {
     </section>
   );
 }
+
+/* ----- How it works -----
+   One copy source for both renders: the pinned scroll sequence (desktop,
+   motion welcome) and the plain stacked layout (mobile / reduced motion). */
+const STEPS = [
+  {
+    title: "Book a call",
+    body: "Tell us about your business and what you want from social.",
+  },
+  {
+    title: "We build your plan",
+    body: "We map out the content and posting strategy that fits your goals.",
+  },
+  {
+    title: "We film and grow",
+    body: "We create the content and run your accounts while you focus on your business.",
+  },
+];
 
 function Step({ number, title, children }) {
   return (
@@ -533,7 +667,9 @@ function Step({ number, title, children }) {
   );
 }
 
-function HowItWorks() {
+// Plain layout: three steps joined by a thin line that draws itself in on
+// scroll — vertical on mobile, horizontal on wider screens.
+function HowItWorksStatic() {
   return (
     <section className="border-t border-hairline">
       <Container className="py-24 sm:py-32">
@@ -542,8 +678,7 @@ function HowItWorks() {
         </Reveal>
         <Reveal>
           <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-10">
-            {/* Connecting line draws itself in on scroll: vertical on mobile,
-                horizontal on desktop. Aligned to the center of the 48px markers. */}
+            {/* Connecting line, aligned to the center of the 48px markers. */}
             <motion.span
               className="pointer-events-none absolute left-6 top-6 bottom-6 w-px origin-top bg-ink/20 md:hidden"
               initial={{ scaleY: 0 }}
@@ -558,16 +693,11 @@ function HowItWorks() {
               viewport={{ once: true, amount: 0.6 }}
               transition={{ duration: 1, ease: "easeInOut" }}
             />
-            <Step number="01" title="Book a call">
-              Tell us about your business and what you want from social.
-            </Step>
-            <Step number="02" title="We build your plan">
-              We map out the content and posting strategy that fits your goals.
-            </Step>
-            <Step number="03" title="We film and grow">
-              We create the content and run your accounts while you focus on your
-              business.
-            </Step>
+            {STEPS.map((s, i) => (
+              <Step key={i} number={"0" + (i + 1)} title={s.title}>
+                {s.body}
+              </Step>
+            ))}
           </ol>
         </Reveal>
       </Container>
@@ -575,10 +705,91 @@ function HowItWorks() {
   );
 }
 
+// Pinned scroll sequence: the section is tall, the content stays fixed on
+// screen, and scrolling through it draws the connecting line and lights up
+// each step in turn. Transform/opacity only, so it stays smooth.
+function HowItWorksPinned() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  });
+  const [active, setActive] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setActive(Math.min(STEPS.length - 1, Math.floor(v * STEPS.length)));
+  });
+  const lineScale = useSpring(scrollYProgress, { stiffness: 140, damping: 30 });
+
+  return (
+    <section ref={ref} className="relative h-[240vh] border-t border-hairline">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <Container>
+          <SectionHeading number="03">How it works</SectionHeading>
+          <ol className="relative mt-16 grid grid-cols-3 gap-10">
+            {/* Connecting line, drawn by scroll progress. */}
+            <motion.span
+              className="pointer-events-none absolute top-6 left-[16.666%] right-[16.666%] h-px origin-left bg-ink/25"
+              style={{ scaleX: lineScale }}
+              aria-hidden="true"
+            />
+            {STEPS.map((s, i) => (
+              <li key={i} className="relative">
+                <div
+                  className={
+                    "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border bg-white font-heading text-lg font-bold transition-colors duration-500 " +
+                    (active >= i
+                      ? "border-ink text-ink"
+                      : "border-ink/25 text-ink/30")
+                  }
+                >
+                  {"0" + (i + 1)}
+                </div>
+                <div
+                  className={
+                    "mt-7 transition-opacity duration-500 " +
+                    (active >= i ? "opacity-100" : "opacity-30")
+                  }
+                >
+                  <h3 className="font-heading text-xl font-bold tracking-tight">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 text-base leading-relaxed text-ink/70">
+                    {s.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </div>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const reduce = useReducedMotion();
+  // Pin only on wider screens where the three steps sit side by side; phones
+  // and reduced-motion visitors get the plain stacked layout.
+  const [wide, setWide] = useState(
+    () => window.matchMedia("(min-width: 768px)").matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setWide(mq.matches);
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  return reduce || !wide ? <HowItWorksStatic /> : <HowItWorksPinned />;
+}
+
 function About() {
   return (
     <section className="relative overflow-hidden border-t border-hairline">
-      <PeaksMark className="pointer-events-none absolute -left-20 bottom-0 h-64 w-96 opacity-[0.04] md:block" />
+      <ParallaxPeaks
+        className="-left-20 bottom-0 h-64 w-96 opacity-[0.04]"
+        distance={24}
+      />
       <Container className="relative py-24 sm:py-32">
         <Reveal>
           <SectionHeading number="04">Who's behind A&amp;A</SectionHeading>
@@ -641,7 +852,7 @@ function Faq() {
         <Reveal>
           <SectionHeading number="05">FAQ</SectionHeading>
         </Reveal>
-        <Reveal className="mt-12">
+        <Reveal stagger className="mt-12">
           <FaqItem question="How much does it cost?">
             There's no one-size-fits-all price, because there's no one-size-fits-all
             business. Your investment depends on your goals, your platforms, and the
@@ -748,6 +959,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="font-body">
+        <ScrollProgress />
         <Nav />
         <main>
           <Hero />
