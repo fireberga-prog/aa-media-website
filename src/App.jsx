@@ -928,10 +928,11 @@ function Faq() {
         </Reveal>
         <Reveal stagger className="mt-12">
           <FaqItem question="How much does it cost?">
-            Our pricing depends on your goals and the services you need. Before
-            talking numbers, we offer a complimentary trial video so you can see
-            the value we provide and determine if we're the right partner for
-            your business.
+            Pricing varies based on your needs and goals. We start with a
+            complimentary trial video so you can experience our work before
+            making any commitment. Additionally, we are passionate about
+            supporting our community and offer free services to nonprofits and
+            charitable organizations.
           </FaqItem>
           <FaqItem question="What do you need from me to get started?">
             Just bring your ideas. We'll listen to your goals, learn about your
