@@ -529,6 +529,9 @@ const SHOW_WORK = true;
      - thumbnail: optional poster image in /public, e.g. "/work/project-1.jpg"
                   (used as the video poster, or shown on its own if no video)
      - href:      optional link out, e.g. a Reel/case-study URL  (string)
+     - fullLength: optional. By default a hover preview loops just the first
+                  half of the clip for a tighter teaser; set fullLength: true
+                  to play the whole video through before it loops.
    Drop in a real clip with a single line, e.g.:
      { title: "Spring launch reel", category: "Short-form video",
        video: "/work/spring-launch.mp4", thumbnail: "/work/spring-launch.jpg",
@@ -538,11 +541,11 @@ const SHOW_WORK = true;
    These three are PLACEHOLDERS — replace them with real work before launch. */
 const works = [
   { title: "Cafe St. Petersburg", category: "Short-form video", video: "/work/reel-1.mp4", thumbnail: "/work/reel-1.jpg", href: undefined },
-  { title: "Lockheart", category: "Short-form video", video: "/work/reel-2.mp4", thumbnail: "/work/reel-2.jpg", href: undefined },
+  { title: "Lockheart", category: "Short-form video", video: "/work/reel-2.mp4", thumbnail: "/work/reel-2.jpg", href: undefined, fullLength: true },
   { title: "Centre Street Food Pantry", category: "Short-form video", video: "/work/centre-st-food-pantry.mp4", thumbnail: "/work/centre-st-food-pantry.jpg", href: undefined },
 ];
 
-function WorkTile({ title, category, video, thumbnail, href }) {
+function WorkTile({ title, category, video, thumbnail, href, fullLength }) {
   const videoRef = useRef(null);
   // Sound is off until the visitor turns it on with the speaker button.
   // (Browsers block audio until a real click — hovering alone doesn't count.)
@@ -601,7 +604,7 @@ function WorkTile({ title, category, video, thumbnail, href }) {
             loop
             playsInline
             preload="none"
-            onTimeUpdate={loopFirstHalf}
+            onTimeUpdate={fullLength ? undefined : loopFirstHalf}
           />
         ) : thumbnail ? (
           <img
