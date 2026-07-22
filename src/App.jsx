@@ -860,7 +860,7 @@ function HowItWorks() {
    one-line change. */
 const team = [
   { name: "Andrew", role: "Co-founder", photo: "/team/andrew.jpg", focus: "center top" },
-  { name: "Alex", role: "Co-founder", photo: "/team/alex.jpg", focus: "center 28%" },
+  { name: "Alex", role: "Co-founder", photo: "/team/alex.jpg", focus: "center center" },
 ];
 
 function TeamCard({ name, role, photo, focus = "center top" }) {
