@@ -853,16 +853,17 @@ function HowItWorks() {
 
 /* ----- The team -----
    Add a real photo by setting `photo` to an image in /public/team, e.g.
-   "/team/alex.jpg" (a vertical portrait works best). Photos are shown in
-   grayscale to keep the black-and-white palette. When `photo` is left
-   undefined the card shows a marked placeholder until a real one is dropped
-   in — so adding Alex's headshot later is a one-line change. */
+   "/team/alex.jpg" (a vertical portrait works best). `focus` sets how the
+   photo is framed inside the card (CSS object-position) — nudge it if a face
+   sits too high or low. When `photo` is left undefined the card shows a marked
+   placeholder until a real one is dropped in, so adding a member later is a
+   one-line change. */
 const team = [
-  { name: "Andrew", role: "Co-founder", photo: "/team/andrew.jpg" },
-  { name: "Alex", role: "Co-founder", photo: undefined }, // set to "/team/alex.jpg"
+  { name: "Andrew", role: "Co-founder", photo: "/team/andrew.jpg", focus: "center top" },
+  { name: "Alex", role: "Co-founder", photo: "/team/alex.jpg", focus: "center 28%" },
 ];
 
-function TeamCard({ name, role, photo }) {
+function TeamCard({ name, role, photo, focus = "center top" }) {
   return (
     <div className="group overflow-hidden rounded-lg border border-hairline transition-colors duration-300 hover:border-ink">
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-white">
@@ -871,7 +872,8 @@ function TeamCard({ name, role, photo }) {
             src={photo}
             alt={name}
             loading="lazy"
-            className="h-full w-full object-cover object-top grayscale transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            style={{ objectPosition: focus }}
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         ) : (
           // Placeholder — no photo yet. Drop one into /public/team and set `photo`.
@@ -905,7 +907,14 @@ function About() {
       <Container className="relative py-24 sm:py-32">
         <Reveal>
           <SectionHeading number="04">Who's behind A&amp;A</SectionHeading>
-          <div className="mt-8 max-w-2xl space-y-5 text-lg leading-relaxed text-ink/70">
+        </Reveal>
+        <Reveal stagger className="mt-12 grid max-w-2xl grid-cols-2 gap-6 sm:gap-8">
+          {team.map((member, i) => (
+            <TeamCard key={i} {...member} />
+          ))}
+        </Reveal>
+        <Reveal>
+          <div className="mt-12 max-w-2xl space-y-5 text-lg leading-relaxed text-ink/70">
             <p>
               A&amp;A Media is a creative media agency founded by two high school
               students with a passion for storytelling, digital marketing, and
@@ -925,11 +934,6 @@ function About() {
               communities they serve.
             </p>
           </div>
-        </Reveal>
-        <Reveal stagger className="mt-14 grid max-w-2xl grid-cols-2 gap-6 sm:gap-8">
-          {team.map((member, i) => (
-            <TeamCard key={i} {...member} />
-          ))}
         </Reveal>
       </Container>
     </section>
