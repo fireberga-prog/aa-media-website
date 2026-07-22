@@ -1,7 +1,11 @@
 import { useState } from "react";
 
-// Replace YOUR_FORM_ID with the real ID from your Formspree account.
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+// Where inquiries go. Submitting opens the visitor's email app with the form
+// details pre-filled and addressed here — no third-party form service or
+// backend to set up, so it can't error out. (If you'd rather submissions land
+// in your inbox automatically without the visitor's mail app, swap this for a
+// Formspree/Web3Forms endpoint — ask and it's a small change.)
+const CONTACT_EMAIL = "officialaandamedia@gmail.com";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -9,45 +13,48 @@ export default function ContactForm() {
   // In-memory (session) flag — survives re-renders without localStorage,
   // so a repeat submit in the same session shows the success state.
   const [submitted, setSubmitted] = useState(false);
-  const [status, setStatus] = useState("idle"); // idle | sending | error
   const [emailError, setEmailError] = useState("");
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
+    const name = form.name.value.trim();
+    const business = form.business.value.trim();
     const email = form.email.value.trim();
+    const message = form.message.value.trim();
 
     if (!EMAIL_RE.test(email)) {
       setEmailError("Please enter a valid email address.");
       return;
     }
     setEmailError("");
-    setStatus("sending");
 
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: new FormData(form),
-      });
-      if (res.ok) {
-        setSubmitted(true);
-        setStatus("idle");
-        form.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    // Build a pre-filled email and hand off to the visitor's mail app.
+    const subject = `New inquiry${business ? ` — ${business}` : ""}${
+      name ? ` (${name})` : ""
+    }`;
+    const body =
+      `Name: ${name}\n` +
+      `Business: ${business}\n` +
+      `Email: ${email}\n\n` +
+      `${message}\n`;
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    setSubmitted(true);
+    form.reset();
   }
 
   if (submitted) {
     return (
       <div className="rounded-md border border-hairline p-8 text-center">
-        <p className="font-heading text-2xl font-bold tracking-tight">Thanks</p>
+        <p className="font-heading text-2xl font-bold tracking-tight">
+          Almost there
+        </p>
         <p className="mt-3 text-base text-ink/70">
-          Thanks — we'll be in touch to set up your call.
+          Your email is ready in your mail app — just hit send and we'll be in
+          touch to set up your call.
         </p>
       </div>
     );
@@ -116,17 +123,10 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        disabled={status === "sending"}
-        className="w-full rounded-md border border-ink bg-ink px-7 py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-ink disabled:hover:text-white sm:w-auto"
+        className="w-full rounded-md border border-ink bg-ink px-7 py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink sm:w-auto"
       >
-        {status === "sending" ? "Sending…" : "Book a call"}
+        Book a call
       </button>
-
-      {status === "error" && (
-        <p className="text-sm text-ink">
-          Something went wrong. Please try again, or email us directly.
-        </p>
-      )}
     </form>
   );
 }
