@@ -851,6 +851,50 @@ function HowItWorks() {
   return reduce || !wide ? <HowItWorksStatic /> : <HowItWorksPinned />;
 }
 
+/* ----- The team -----
+   Add a real photo by setting `photo` to an image in /public/team, e.g.
+   "/team/alex.jpg" (a vertical portrait works best). Photos are shown in
+   grayscale to keep the black-and-white palette. When `photo` is left
+   undefined the card shows a marked placeholder until a real one is dropped
+   in — so adding Alex's headshot later is a one-line change. */
+const team = [
+  { name: "Andrew", role: "Co-founder", photo: "/team/andrew.jpg" },
+  { name: "Alex", role: "Co-founder", photo: undefined }, // set to "/team/alex.jpg"
+];
+
+function TeamCard({ name, role, photo }) {
+  return (
+    <div className="group overflow-hidden rounded-lg border border-hairline transition-colors duration-300 hover:border-ink">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-white">
+        {photo ? (
+          <img
+            src={photo}
+            alt={name}
+            loading="lazy"
+            className="h-full w-full object-cover object-top grayscale transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          />
+        ) : (
+          // Placeholder — no photo yet. Drop one into /public/team and set `photo`.
+          <div className="flex h-full w-full flex-col items-center justify-center gap-3">
+            <PeaksMark className="h-16 w-24 opacity-[0.12]" />
+            <span className="text-[0.65rem] uppercase tracking-[0.18em] text-ink/40">
+              Photo coming soon
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="flex items-baseline justify-between gap-3 border-t border-hairline px-5 py-4">
+        <span className="font-heading text-lg font-bold tracking-tight">
+          {name}
+        </span>
+        <span className="shrink-0 text-[0.65rem] uppercase tracking-[0.14em] text-ink/50">
+          {role}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function About() {
   return (
     <section className="relative overflow-hidden border-t border-hairline">
@@ -881,6 +925,11 @@ function About() {
               communities they serve.
             </p>
           </div>
+        </Reveal>
+        <Reveal stagger className="mt-14 grid max-w-2xl grid-cols-2 gap-6 sm:gap-8">
+          {team.map((member, i) => (
+            <TeamCard key={i} {...member} />
+          ))}
         </Reveal>
       </Container>
     </section>
