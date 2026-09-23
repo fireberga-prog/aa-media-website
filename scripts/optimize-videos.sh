@@ -8,6 +8,7 @@
 #     AAC 128k audio, with +faststart so playback starts before the download ends
 #   - writes a poster `<name>.jpg` from the frame at 1s (only if none exists)
 #   - writes a 4 second muted 480p hover preview `<name>.preview.mp4`
+#   - writes a small `<name>.thumb.jpg` (360 px wide) for tiles and grid cards
 #   - replaces the original in place and keeps a backup in .video-originals/
 #
 # Uses `ffmpeg` from your PATH. To use a different binary:
@@ -26,7 +27,7 @@ if ! command -v "$FFMPEG" >/dev/null 2>&1; then
 fi
 
 human() {
-  awk -v b="$1" 'BEGIN { printf "%.1f MB", b / 1048576 }'
+  awk -v b="$1" 'BEGIN { if (b < 1048576) printf "%d KB", b / 1024; else printf "%.1f MB", b / 1048576 }'
 }
 
 filesize() {
@@ -100,8 +101,18 @@ while IFS= read -r -d '' src; do
 done < <(find "$WORK_DIR" -type f \( -iname '*.mp4' -o -iname '*.mov' \) \
   ! -name '*.preview.mp4' ! -name '*.tmp.mp4' -print0 | sort -z)
 
+# Small thumbnails for every poster (also covers posters you replace by hand:
+# delete the old .thumb.jpg and run again).
+while IFS= read -r -d '' poster; do
+  thumb="${poster%.jpg}.thumb.jpg"
+  [[ -f "$thumb" ]] && continue
+  "$FFMPEG" -nostdin -hide_banner -loglevel error -y -i "$poster" \
+    -vf "scale=360:-2" -q:v 9 "$thumb"
+  echo "Thumbnail $thumb ($(human "$(filesize "$thumb")"))"
+done < <(find "$WORK_DIR" -type f -name '*.jpg' ! -name '*.thumb.jpg' -print0 | sort -z)
+
 if [[ $count -eq 0 ]]; then
-  echo "Nothing to do. Every video is already optimized."
+  echo "No new videos to optimize."
 else
   echo "Done: $count video(s), $(human "$total_before") -> $(human "$total_after")"
 fi
