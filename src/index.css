@@ -4,8 +4,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* Decorative peaks bleed past the right edge inside overflow-hidden
-     sections; this is insurance against any horizontal scroll on mobile. */
+  /* Insurance against any horizontal scroll on small screens. */
   overflow-x: clip;
 }
 
@@ -13,50 +12,36 @@ body {
   background-color: #ffffff;
   color: #0a0a0a;
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Reveal-on-scroll: gentle fade/slide as sections enter the viewport.
-   Defined only when motion is welcome, so reduced-motion users get
-   the content immediately, fully visible, with no transform. */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-    will-change: opacity, transform;
-  }
-  .reveal.is-visible {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* Staggered variant: direct children cascade in one after another.
-     border-color rides along (and never gets the stagger delay) so card
-     hover borders keep their own smooth fade. */
-  .reveal-stagger > * {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.3s ease;
-  }
-  .reveal-stagger.is-visible > * {
-    opacity: 1;
-    transform: none;
-  }
-  .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.09s, 0.09s, 0s; }
-  .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.18s, 0.18s, 0s; }
-  .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.27s, 0.27s, 0s; }
-  .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.36s, 0.36s, 0s; }
-  .reveal-stagger.is-visible > *:nth-child(n + 6) { transition-delay: 0.45s, 0.45s, 0s; }
+/* Visible keyboard focus everywhere: ink ring with a 2px offset
+   (white on dark surfaces). */
+:focus-visible {
+  outline: 2px solid #0a0a0a;
+  outline-offset: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: #ffffff;
 }
 
-/* Refined accordion: animate height via grid-template-rows 0fr -> 1fr,
-   which works with auto-height content and stays smooth. */
+/* Anchored sections clear the sticky nav (and the Work jump nav). */
+[id] {
+  scroll-margin-top: 5rem;
+}
+.work-section {
+  scroll-margin-top: 8rem;
+}
+
+/* Accordion: animate height via grid-template-rows 0fr -> 1fr, which works
+   with auto-height content. */
 .faq-panel {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.32s ease;
+  transition: grid-template-rows 0.3s ease;
 }
 .faq-panel.is-open {
   grid-template-rows: 1fr;
@@ -65,40 +50,12 @@ body {
   overflow: hidden;
 }
 
-/* Animated underline for text links. Expands from the left on hover. */
-.link-underline {
-  position: relative;
-}
-.link-underline::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 1px;
-  width: 100%;
-  background-color: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-.link-underline:hover::after,
-.link-underline:focus-visible::after {
-  transform: scaleX(1);
-}
-
-/* Scrolling marquee band. Two identical track halves translate -50% for a
-   seamless loop; pausing on hover lets a visitor read it. */
-.marquee {
-  overflow: hidden;
-  white-space: nowrap;
-}
+/* Client strip marquee (mobile). Two identical halves translate -50% for a
+   seamless loop. */
 .marquee__track {
-  display: inline-flex;
+  display: flex;
   width: max-content;
-  animation: marquee-scroll 28s linear infinite;
-}
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
+  animation: marquee-scroll 30s linear infinite;
 }
 @keyframes marquee-scroll {
   from {
@@ -109,20 +66,12 @@ body {
   }
 }
 
-/* Slow continuous drift for the hero peaks motif — keeps the first screen
-   alive (fitting a video brand) without being busy. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-drift {
-    animation: hero-drift 14s ease-in-out infinite alternate;
-  }
+/* Hide scrollbars on the horizontal jump nav while keeping it scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
 }
-@keyframes hero-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-1.5rem, 1rem, 0);
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -132,11 +81,12 @@ body {
   .faq-panel {
     transition: none;
   }
-  /* Freeze the marquee so it doesn't move for reduced-motion visitors. */
   .marquee__track {
     animation: none;
   }
-  .link-underline::after {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
