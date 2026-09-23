@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { ArrowSquare } from "./Button.jsx";
+import { CONTACT_EMAIL } from "./Social.jsx";
 
-// Where inquiries go. Submitting opens the visitor's email app with the form
-// details pre-filled and addressed here — no third-party form service or
-// backend to set up, so it can't error out. (If you'd rather submissions land
-// in your inbox automatically without the visitor's mail app, swap this for a
-// Formspree/Web3Forms endpoint — ask and it's a small change.)
-const CONTACT_EMAIL = "officialaandamedia@gmail.com";
+// Submitting opens the visitor's email app with the form details pre-filled
+// and addressed to CONTACT_EMAIL. No third-party form service or backend to
+// set up, so it can't error out. (If you'd rather submissions land in your
+// inbox automatically without the visitor's mail app, swap this for a
+// Formspree/Web3Forms endpoint.)
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const FIELD =
+  "mt-2 w-full rounded-xl border border-transparent bg-mist px-4 py-3.5 text-base text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-ink focus:ring-offset-2";
+
 export default function ContactForm() {
-  // In-memory (session) flag — survives re-renders without localStorage,
-  // so a repeat submit in the same session shows the success state.
+  // In-memory (session) flag, so a repeat submit in the same session shows
+  // the success state.
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
 
@@ -30,7 +34,7 @@ export default function ContactForm() {
     setEmailError("");
 
     // Build a pre-filled email and hand off to the visitor's mail app.
-    const subject = `New inquiry${business ? ` — ${business}` : ""}${
+    const subject = `New inquiry${business ? ` from ${business}` : ""}${
       name ? ` (${name})` : ""
     }`;
     const body =
@@ -48,12 +52,10 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-md border border-hairline p-8 text-center">
-        <p className="font-heading text-2xl font-bold tracking-tight">
-          Almost there
-        </p>
+      <div className="rounded-2xl bg-mist p-8 text-center" role="status">
+        <p className="font-heading text-2xl font-bold tracking-tight">Almost there</p>
         <p className="mt-3 text-base text-ink/70">
-          Your email is ready in your mail app — just hit send and we'll be in
+          Your email is ready in your mail app. Just hit send and we'll be in
           touch to set up your call.
         </p>
       </div>
@@ -62,36 +64,31 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5 text-left">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium">
-          Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          className="mt-2 w-full rounded-md border border-hairline px-4 py-3 text-base outline-none transition focus:border-ink"
-        />
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className="block text-sm font-semibold">
+            Name
+          </label>
+          <input id="name" name="name" type="text" required autoComplete="name" className={FIELD} />
+        </div>
+
+        <div>
+          <label htmlFor="business" className="block text-sm font-semibold">
+            Business name
+          </label>
+          <input
+            id="business"
+            name="business"
+            type="text"
+            required
+            autoComplete="organization"
+            className={FIELD}
+          />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="business" className="block text-sm font-medium">
-          Business name
-        </label>
-        <input
-          id="business"
-          name="business"
-          type="text"
-          required
-          autoComplete="organization"
-          className="mt-2 w-full rounded-md border border-hairline px-4 py-3 text-base outline-none transition focus:border-ink"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium">
+        <label htmlFor="email" className="block text-sm font-semibold">
           Email
         </label>
         <input
@@ -101,31 +98,29 @@ export default function ContactForm() {
           required
           autoComplete="email"
           aria-invalid={emailError ? "true" : "false"}
-          className="mt-2 w-full rounded-md border border-hairline px-4 py-3 text-base outline-none transition focus:border-ink"
+          aria-describedby={emailError ? "email-error" : undefined}
+          className={FIELD}
         />
         {emailError && (
-          <p className="mt-2 text-sm text-ink">{emailError}</p>
+          <p id="email-error" className="mt-2 text-sm font-medium text-ink">
+            {emailError}
+          </p>
         )}
       </div>
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium">
+        <label htmlFor="message" className="block text-sm font-semibold">
           What do you need help with?
         </label>
-        <textarea
-          id="message"
-          name="message"
-          rows={4}
-          required
-          className="mt-2 w-full resize-y rounded-md border border-hairline px-4 py-3 text-base outline-none transition focus:border-ink"
-        />
+        <textarea id="message" name="message" rows={5} required className={FIELD + " resize-y"} />
       </div>
 
       <button
         type="submit"
-        className="w-full rounded-md border border-ink bg-ink px-7 py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-white hover:text-ink sm:w-auto"
+        className="group inline-flex items-center gap-4 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-ink/85"
       >
         Book a call
+        <ArrowSquare />
       </button>
     </form>
   );
