@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { useSpotlight } from "../hooks/usePointerEffects.js";
 
 // 3-column bento grid. Children choose their own spans.
 export default function Bento({ className = "", children }) {
@@ -13,26 +14,39 @@ export default function Bento({ className = "", children }) {
 // tone: "mist" (soft gray) | "ink" (dark).
 export function BentoCard({ tone = "mist", icon: Icon, title, className = "", children }) {
   const dark = tone === "ink";
+  const spot = useSpotlight();
   return (
     <div
+      ref={spot.ref}
+      onPointerMove={spot.onPointerMove}
       className={
-        "flex flex-col rounded-2xl p-7 sm:p-8 " +
+        "group relative flex flex-col overflow-hidden rounded-2xl p-7 sm:p-8 " +
         (dark ? "on-dark bg-ink text-white " : "bg-mist text-ink ") +
         className
       }
     >
+      {/* Soft light that follows the cursor. */}
+      <span
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
+        style={{
+          background: `radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), ${
+            dark ? "rgba(212,255,63,0.14)" : "rgba(255,255,255,0.9)"
+          }, transparent 70%)`,
+        }}
+        aria-hidden="true"
+      />
       {Icon && (
         <span
           className={
-            "inline-flex h-11 w-11 items-center justify-center rounded-xl " +
+            "relative inline-flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:transform-none " +
             (dark ? "bg-white/10" : "bg-white")
           }
         >
           <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
         </span>
       )}
-      <h3 className="mt-auto pt-10 font-heading text-2xl font-bold tracking-tight">{title}</h3>
-      <div className={"mt-2 text-base leading-relaxed " + (dark ? "text-white/75" : "text-ink/70")}>
+      <h3 className="relative mt-auto pt-10 font-heading text-2xl font-bold tracking-tight">{title}</h3>
+      <div className={"relative mt-2 text-base leading-relaxed " + (dark ? "text-white/75" : "text-ink/70")}>
         {children}
       </div>
     </div>

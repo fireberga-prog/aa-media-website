@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowSquare } from "./Button.jsx";
+import { useMagnetic } from "../hooks/usePointerEffects.js";
 import { CONTACT_EMAIL } from "./Social.jsx";
 
 // Submitting opens the visitor's email app with the form details pre-filled
@@ -18,6 +19,7 @@ export default function ContactForm() {
   // the success state.
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const magnetic = useMagnetic(0.2);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -117,7 +119,10 @@ export default function ContactForm() {
 
       <button
         type="submit"
-        className="group inline-flex items-center gap-4 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-base font-semibold text-white transition-colors duration-200 hover:bg-ink/85"
+        ref={magnetic.ref}
+        onPointerMove={magnetic.onPointerMove}
+        onPointerLeave={magnetic.onPointerLeave}
+        className="group inline-flex items-center gap-4 rounded-full bg-ink py-1.5 pl-6 pr-1.5 text-base font-semibold text-white transition-[transform,background-color] duration-300 ease-out hover:bg-ink/85 motion-reduce:transition-none"
       >
         Book a call
         <ArrowSquare />

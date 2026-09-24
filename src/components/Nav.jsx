@@ -20,6 +20,7 @@ export function WordMark({ className = "" }) {
 }
 
 const LINKS = [
+  { to: "/", label: "Home" },
   { to: "/work", label: "Work" },
   { to: "/about", label: "About" },
 ];
@@ -28,6 +29,7 @@ function DesktopLink({ to, label }) {
   return (
     <NavLink
       to={to}
+      end={to === "/"}
       className={({ isActive }) =>
         "relative px-1 py-2 text-[15px] font-semibold transition-colors " +
         (isActive ? "text-ink" : "text-ink/70 hover:text-ink")
@@ -142,7 +144,7 @@ export default function Nav() {
               </button>
             </Container>
             <Container as="nav" aria-label="Mobile" className="flex flex-1 flex-col justify-center gap-2 pb-16">
-              {[{ to: "/", label: "Home" }, ...LINKS, { to: "/about#contact", label: "Contact" }].map(
+              {[...LINKS, { to: "/about#contact", label: "Contact" }].map(
                 (l) => (
                   <NavLink
                     key={l.to}

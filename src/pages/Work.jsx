@@ -69,7 +69,7 @@ function ClientSection({ client, shaded, openVideo }) {
       aria-labelledby={client.slug + "-name"}
       className={"work-section " + (shaded ? "bg-mist" : "bg-white")}
     >
-      <Container className="grid gap-10 py-16 sm:py-20 lg:grid-cols-12 lg:gap-12">
+      <Container className="grid gap-8 py-12 sm:py-16 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-36">
             <Kicker className="text-ink/70">{client.category}</Kicker>
@@ -126,7 +126,7 @@ export default function Work() {
   return (
     <>
       <header className="bg-white">
-        <Container className="pb-10 pt-16 sm:pt-24">
+        <Container className="pb-8 pt-12 sm:pt-16">
           <Reveal>
             <SectionHeading as="h1" bold="Our" serif="work." size="xl" />
             <p className="mt-6 max-w-xl text-lg text-ink/70">

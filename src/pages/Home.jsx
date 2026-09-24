@@ -2,7 +2,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Camera, CalendarCheck, Target } from "lucide-react";
 import {
   allVideos,
-  featuredClients,
+  featuredVideos,
+  getClient,
   posterSrcSet,
   previewFor,
   thumbFor,
@@ -56,7 +57,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <FloatingMedia posters={posters} tags={HERO_TAGS} />
-      <Container className="relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center py-20 text-center md:py-28">
+      <Container className="relative flex min-h-[78svh] flex-col items-center justify-center pb-16 pt-12 text-center md:pb-24 md:pt-16">
         <motion.div
           variants={container}
           initial="hidden"
@@ -156,38 +157,40 @@ function ClientStrip() {
 }
 
 function FeaturedWork({ openVideo }) {
-  const [first, ...rest] = featuredClients;
+  const [first, ...rest] = featuredVideos;
   if (!first) return null;
-  const tall = rest.length >= 2;
+  // Open the player on the clicked video, with arrows stepping through the
+  // rest of that client's videos.
+  const open = (v) => {
+    const list = videosFor(getClient(v.clientSlug));
+    openVideo(list, Math.max(0, list.findIndex((x) => x.id === v.id)));
+  };
+  const card = (v, size) => (
+    <VideoCard
+      key={v.id}
+      video={v}
+      client={getClient(v.clientSlug)}
+      size={size}
+      className={size === "lg" ? "h-full" : ""}
+      onOpen={() => open(v)}
+    />
+  );
 
   return (
     <section className="bg-fog">
-      <Container className="py-24 sm:py-32">
-        <Reveal className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <Container className="py-16 sm:py-24">
+        <Reveal className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading bold="Recent" serif="work." size="xl" />
           <Button to="/work" variant="link" className="shrink-0">
             View all work
           </Button>
         </Reveal>
 
-        <Reveal className="mt-12 grid gap-4 md:grid-cols-3">
-          <div className={"md:col-span-2" + (tall ? " md:row-span-2" : "")}>
-            <VideoCard
-              video={first.videos[0]}
-              client={first}
-              size="lg"
-              className="h-full"
-              onOpen={() => openVideo(videosFor(first), 0)}
-            />
+        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className={"col-span-2" + (rest.length >= 2 ? " md:row-span-2" : "")}>
+            {card(first, "lg")}
           </div>
-          {rest.map((c) => (
-            <VideoCard
-              key={c.slug}
-              video={c.videos[0]}
-              client={c}
-              onOpen={() => openVideo(videosFor(c), 0)}
-            />
-          ))}
+          {rest.map((v) => card(v, "md"))}
         </Reveal>
       </Container>
     </section>
@@ -195,10 +198,11 @@ function FeaturedWork({ openVideo }) {
 }
 
 function WhatYouGet() {
-  const sample = allVideos[0];
+  // A clip that isn't already in "Recent work", so Home doesn't repeat itself.
+  const sample = allVideos.find((v) => !featuredVideos.includes(v)) || allVideos[0];
   return (
     <section className="bg-white">
-      <Container className="py-24 sm:py-32">
+      <Container className="py-16 sm:py-24">
         <Reveal>
           <SectionHeading bold="What you" serif="get." size="xl" />
         </Reveal>
@@ -247,11 +251,11 @@ function WhatYouGet() {
 function HowItWorks() {
   return (
     <section className="bg-fog">
-      <Container className="py-24 sm:py-32">
+      <Container className="py-16 sm:py-24">
         <Reveal>
           <SectionHeading bold="How it" serif="works." size="xl" />
         </Reveal>
-        <Reveal className="mt-14">
+        <Reveal className="mt-10">
           <Steps />
         </Reveal>
       </Container>
@@ -260,7 +264,7 @@ function HowItWorks() {
 }
 
 function ClosingBand() {
-  const sample = allVideos[1] || allVideos[0];
+  const sample = featuredVideos[1] || allVideos[0];
   const poster = sample && thumbFor(sample);
   return (
     <section className="bg-white">

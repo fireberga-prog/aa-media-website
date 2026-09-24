@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Play } from "lucide-react";
 import { posterSrcSet, previewFor } from "../data/clients.js";
-
-// Hover previews only on devices that really hover, and never for visitors
-// who prefer reduced motion.
-function canPreview() {
-  if (typeof window === "undefined") return false;
-  return (
-    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
+import { pointerEffectsOn as canPreview, useTilt } from "../hooks/usePointerEffects.js";
 
 // Poster card for one video. Shows the still, plays the short muted
 // `.preview.mp4` on hover, and opens the full video (in VideoModal) on click.
@@ -19,6 +10,7 @@ export default function VideoCard({ video, client, size = "md", onOpen, eager = 
   const [hovering, setHovering] = useState(false);
   const [playing, setPlaying] = useState(false);
   const previewRef = useRef(null);
+  const tilt = useTilt(size === "lg" ? 3 : 6);
   const preview = previewFor(video);
   const vertical = video.orientation !== "horizontal";
 
@@ -33,11 +25,16 @@ export default function VideoCard({ video, client, size = "md", onOpen, eager = 
     <button
       type="button"
       onClick={onOpen}
+      ref={tilt.ref}
+      onPointerMove={tilt.onPointerMove}
       onMouseEnter={() => preview && canPreview() && setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
+      onMouseLeave={() => {
+        setHovering(false);
+        tilt.onPointerLeave();
+      }}
       aria-label={`Play ${client.name} video${client.videos.length > 1 ? `: ${video.title}` : ""}`}
       className={
-        "group relative block w-full overflow-hidden rounded-2xl bg-mist text-left " +
+        "group relative block w-full overflow-hidden rounded-2xl bg-mist text-left transition-[transform,box-shadow] duration-300 ease-out [transform-style:preserve-3d] hover:shadow-[0_20px_40px_-12px_rgba(10,10,10,0.35)] motion-reduce:transition-none " +
         frame +
         " " +
         className
@@ -73,6 +70,16 @@ export default function VideoCard({ video, client, size = "md", onOpen, eager = 
           />
         )}
       </div>
+
+      {/* Soft light that follows the cursor (position set by useTilt). */}
+      <span
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
+        style={{
+          background:
+            "radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.22), transparent 45%)",
+        }}
+        aria-hidden="true"
+      />
 
       {/* Bottom gradient keeps the white label readable on any frame. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />

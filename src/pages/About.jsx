@@ -97,7 +97,7 @@ export default function About() {
   return (
     <>
       <header className="bg-white">
-        <Container className="pb-12 pt-16 sm:pt-24">
+        <Container className="pb-8 pt-12 sm:pt-16">
           <Reveal>
             <SectionHeading as="h1" bold="About" serif="us." size="xl" />
           </Reveal>
@@ -106,7 +106,7 @@ export default function About() {
 
       {/* Story */}
       <section className="bg-white" aria-label="Our story">
-        <Container className="grid gap-10 pb-24 sm:pb-32 lg:grid-cols-12 lg:gap-16">
+        <Container className="grid gap-10 pb-16 sm:pb-24 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
             <p className="font-heading text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-tight">
               A creative media agency founded by{" "}
@@ -139,7 +139,7 @@ export default function About() {
 
       {/* Team */}
       <section className="bg-fog">
-        <Container className="py-24 sm:py-32">
+        <Container className="py-16 sm:py-24">
           <Reveal>
             <SectionHeading bold="The" serif="team." size="lg" />
           </Reveal>
@@ -153,7 +153,7 @@ export default function About() {
 
       {/* How we work */}
       <section className="bg-white">
-        <Container className="py-24 sm:py-32">
+        <Container className="py-16 sm:py-24">
           <Reveal>
             <SectionHeading bold="How we" serif="work." size="lg" />
           </Reveal>
@@ -165,7 +165,7 @@ export default function About() {
 
       {/* FAQ */}
       <section className="bg-fog">
-        <Container className="grid gap-10 py-24 sm:py-32 lg:grid-cols-12 lg:gap-16">
+        <Container className="grid gap-10 py-16 sm:py-24 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-4">
             <SectionHeading bold="Questions," serif="answered." size="lg" stacked />
           </Reveal>
@@ -181,7 +181,7 @@ export default function About() {
 
       {/* Contact */}
       <section id="contact" className="bg-white">
-        <Container className="grid gap-12 py-24 sm:py-32 lg:grid-cols-12 lg:gap-16">
+        <Container className="grid gap-12 py-16 sm:py-24 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <SectionHeading bold="Get in" serif="touch." size="lg" />
             <p className="mt-6 text-lg text-ink/70">

@@ -32,7 +32,7 @@ function ClientView({ client }) {
   return (
     <>
       <section className="bg-white">
-        <Container className="pb-16 pt-10 sm:pb-24 sm:pt-14">
+        <Container className="pb-12 pt-8 sm:pb-16 sm:pt-10">
           <Link
             to="/work"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink/70 transition-colors hover:text-ink"
@@ -93,7 +93,7 @@ function ClientView({ client }) {
 
       {more.length > 0 && (
         <section className="bg-white">
-          <Container className="py-20 sm:py-28">
+          <Container className="py-14 sm:py-20">
             <Reveal>
               <SectionHeading bold="More" serif="work." size="lg" />
             </Reveal>

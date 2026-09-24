@@ -14,7 +14,7 @@ const PAGES = [
 export default function Footer() {
   return (
     <footer className="on-dark bg-ink text-white">
-      <Container className="pb-10 pt-20 sm:pt-28">
+      <Container className="pb-10 pt-16 sm:pt-20">
         <p className="font-heading text-[clamp(2.5rem,7vw,6rem)] font-bold leading-display tracking-tightest">
           Let's make something
           <br />
