@@ -26,6 +26,7 @@ export default function VideoCard({ video, client, size = "md", onOpen, eager = 
       type="button"
       onClick={onOpen}
       ref={tilt.ref}
+      data-cursor="Play"
       onPointerMove={tilt.onPointerMove}
       onMouseEnter={() => preview && canPreview() && setHovering(true)}
       onMouseLeave={() => {

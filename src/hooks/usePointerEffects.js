@@ -54,17 +54,3 @@ export function useMagnetic(strength = 0.25) {
   }, []);
   return { ref, onPointerMove, onPointerLeave };
 }
-
-// Exposes the cursor position inside an element as --mx / --my (px), used
-// by the .spotlight CSS class to draw a soft light that follows the mouse.
-export function useSpotlight() {
-  const ref = useRef(null);
-  const onPointerMove = useCallback((e) => {
-    const el = ref.current;
-    if (!el || e.pointerType !== "mouse") return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
-  }, []);
-  return { ref, onPointerMove };
-}

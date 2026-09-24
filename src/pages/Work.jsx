@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -102,6 +103,26 @@ function ClientSection({ client, shaded, openVideo }) {
   );
 }
 
+// Which client section is in the middle of the screen right now.
+function useActiveSection(ids) {
+  const [active, setActive] = useState(ids[0]);
+  const key = ids.join(",");
+  useEffect(() => {
+    const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    if (!els.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(e.target.id));
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+  return active;
+}
+
 export default function Work() {
   usePageTitle(
     "Our work",
@@ -115,6 +136,18 @@ export default function Work() {
   const shown = type
     ? visibleClients.filter((c) => categoryKey(c.category) === type)
     : visibleClients;
+
+  const active = useActiveSection(shown.map((c) => c.slug));
+  const jumpRef = useRef(null);
+
+  // Keep the highlighted client visible in the (horizontally scrolling) list.
+  useEffect(() => {
+    const nav = jumpRef.current;
+    const link = nav?.querySelector(`[data-slug="${active}"]`);
+    if (!nav || !link) return;
+    const left = link.offsetLeft - nav.clientWidth / 2 + link.offsetWidth / 2;
+    nav.scrollTo({ left, behavior: reduce ? "auto" : "smooth" });
+  }, [active, reduce]);
 
   function setType(value) {
     const next = new URLSearchParams(params);
@@ -161,20 +194,36 @@ export default function Work() {
         aria-label="Clients"
         className="sticky top-16 z-40 border-y border-hairline bg-white/90 backdrop-blur-md"
       >
-        <Container className="no-scrollbar flex gap-6 overflow-x-auto py-3">
-          {shown.map((c) => (
-            <a
-              key={c.slug}
-              href={"#" + c.slug}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId(c.slug);
-              }}
-              className="whitespace-nowrap text-sm font-semibold text-ink/70 transition-colors hover:text-ink"
-            >
-              {c.name}
-            </a>
-          ))}
+        <Container ref={jumpRef} className="no-scrollbar relative flex gap-1 overflow-x-auto py-2">
+          {shown.map((c) => {
+            const on = c.slug === active;
+            return (
+              <a
+                key={c.slug}
+                data-slug={c.slug}
+                href={"#" + c.slug}
+                aria-current={on ? "location" : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId(c.slug);
+                }}
+                className={
+                  "relative whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-semibold transition-colors " +
+                  (on ? "text-ink" : "text-ink/70 hover:text-ink")
+                }
+              >
+                {/* Accent pill slides from client to client as you scroll. */}
+                {on && (
+                  <motion.span
+                    layoutId="jump-pill"
+                    className="absolute inset-0 -z-10 rounded-full bg-accent"
+                    transition={{ type: "spring", stiffness: 400, damping: 34 }}
+                  />
+                )}
+                {c.name}
+              </a>
+            );
+          })}
         </Container>
       </nav>
 

@@ -4,6 +4,7 @@ import { MotionConfig, motion, useReducedMotion } from "framer-motion";
 import Nav from "./components/Nav.jsx";
 import Footer from "./components/Footer.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import Cursor from "./components/Cursor.jsx";
 import Home from "./pages/Home.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
@@ -24,6 +25,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <ScrollToTop />
+      <Cursor />
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-white"

@@ -6,6 +6,7 @@ import Container from "../components/Container.jsx";
 import Reveal from "../components/Reveal.jsx";
 import SectionHeading, { Kicker } from "../components/SectionHeading.jsx";
 import ClientCard from "../components/ClientCard.jsx";
+import ParallaxImage from "../components/ParallaxImage.jsx";
 import { useVideoModal } from "../components/VideoModal.jsx";
 import { ServiceTags, VideoGrid } from "./Work.jsx";
 import NotFound from "./NotFound.jsx";
@@ -44,10 +45,10 @@ function ClientView({ client }) {
           <div className="mt-8 grid items-center gap-10 md:grid-cols-2 md:gap-16">
             <div className="mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-2xl bg-mist md:mx-0 md:max-w-none">
               {cover && (
-                <img
+                <ParallaxImage
+                  className="h-full w-full"
                   src={cover}
                   alt={`Still from ${client.name} video`}
-                  className="h-full w-full object-cover"
                 />
               )}
             </div>

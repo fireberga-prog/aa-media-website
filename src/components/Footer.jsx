@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Container from "./Container.jsx";
-import { SerifItalic } from "./SectionHeading.jsx";
+import ScrollText from "./ScrollText.jsx";
 import { WordMark } from "./Nav.jsx";
 import { CONTACT_EMAIL, SocialLinks } from "./Social.jsx";
 
@@ -15,11 +15,14 @@ export default function Footer() {
   return (
     <footer className="on-dark bg-ink text-white">
       <Container className="pb-10 pt-16 sm:pt-20">
-        <p className="font-heading text-[clamp(2.5rem,7vw,6rem)] font-bold leading-display tracking-tightest">
-          Let's make something
-          <br />
-          <SerifItalic>worth watching.</SerifItalic>
-        </p>
+        <ScrollText
+          offset={["start 1", "end 0.8"]}
+          className="font-heading text-[clamp(2.5rem,7vw,6rem)] font-bold leading-display tracking-tightest"
+          parts={[
+            { text: "Let's make something" },
+            { text: "worth watching.", serif: true, br: true },
+          ]}
+        />
 
         <a
           href={`mailto:${CONTACT_EMAIL}`}

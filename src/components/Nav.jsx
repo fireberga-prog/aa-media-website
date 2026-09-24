@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Container from "./Container.jsx";
 import { SocialLinks } from "./Social.jsx";
@@ -54,6 +54,9 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  // Reading progress line along the bottom of the nav.
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -84,10 +87,15 @@ export default function Nav() {
         (scrolled ? "border-hairline" : "border-transparent")
       }
     >
+      <motion.span
+        aria-hidden="true"
+        className="absolute inset-x-0 -bottom-px h-[2px] origin-left bg-ink"
+        style={{ scaleX: progress }}
+      />
       <Container className="flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-3" aria-label="A&A Media home">
           {/* Real logo: public/aa-media-logo.png. Do not redraw or recolor. */}
-          <img src="/aa-media-logo.png" alt="" className="h-12 w-auto" width="48" height="48" />
+          <img src="/aa-media-logo.png" alt="" className="h-12 w-auto mix-blend-multiply" width="48" height="48" />
           <WordMark className="text-sm" />
         </Link>
 
@@ -130,7 +138,7 @@ export default function Nav() {
           >
             <Container className="flex h-16 shrink-0 items-center justify-between">
               <Link to="/" className="flex items-center gap-3" aria-label="A&A Media home">
-                <img src="/aa-media-logo.png" alt="" className="h-12 w-auto" width="48" height="48" />
+                <img src="/aa-media-logo.png" alt="" className="h-12 w-auto mix-blend-multiply" width="48" height="48" />
                 <WordMark className="text-sm" />
               </Link>
               <button

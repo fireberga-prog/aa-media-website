@@ -30,14 +30,21 @@ const TAG_SPOTS = [
   { style: { bottom: "3%", left: "50%" }, rate: -30, depth: 10, tone: "bg-mist text-ink", center: true },
 ];
 
-function Drift({ rate, depth, mouseX, mouseY, style, className = "", children }) {
+// `side`: -1 for items on the left, 1 on the right. As you scroll away from
+// the hero they spread outward and tilt, like the hero is opening up.
+function Drift({ rate, depth, side = 0, mouseX, mouseY, style, className = "", children }) {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
   const scrollShift = useTransform(scrollY, [0, 700], [0, -rate]);
-  const x = useTransform(mouseX, (v) => v * depth);
+  const spread = useTransform(scrollY, [0, 700], [0, side * (40 + depth * 2)]);
+  const rotate = useTransform(scrollY, [0, 700], [0, side * (depth / 3)]);
+  const x = useTransform([spread, mouseX], ([s, m]) => s + m * depth);
   const y = useTransform([scrollShift, mouseY], ([s, m]) => s + m * depth);
   return (
-    <motion.div className={"absolute " + className} style={reduce ? style : { ...style, x, y }}>
+    <motion.div
+      className={"absolute " + className}
+      style={reduce ? style : { ...style, x, y, rotate }}
+    >
       {children}
     </motion.div>
   );
@@ -72,6 +79,7 @@ export default function FloatingMedia({ posters = [], tags = [] }) {
             key={"tile-" + i}
             rate={spot.rate}
             depth={spot.depth}
+            side={parseFloat(spot.left) < 50 ? -1 : 1}
             mouseX={mouseX}
             mouseY={mouseY}
             style={{ top: spot.top, left: spot.left }}
@@ -97,6 +105,7 @@ export default function FloatingMedia({ posters = [], tags = [] }) {
             key={"tag-" + tag}
             rate={spot.rate}
             depth={spot.depth}
+            side={spot.center ? 0 : parseFloat(spot.style.left) < 50 ? -1 : 1}
             mouseX={mouseX}
             mouseY={mouseY}
             style={spot.style}

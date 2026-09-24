@@ -90,3 +90,9 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Outlined display type for the scroll ticker. */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #0a0a0a;
+}

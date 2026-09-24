@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { useSpotlight } from "../hooks/usePointerEffects.js";
+import { useTilt } from "../hooks/usePointerEffects.js";
 
 // 3-column bento grid. Children choose their own spans.
 export default function Bento({ className = "", children }) {
@@ -14,13 +14,16 @@ export default function Bento({ className = "", children }) {
 // tone: "mist" (soft gray) | "ink" (dark).
 export function BentoCard({ tone = "mist", icon: Icon, title, className = "", children }) {
   const dark = tone === "ink";
-  const spot = useSpotlight();
+  // Tilts toward the cursor; the tilt also reports the cursor position
+  // (--gx/--gy) for the spotlight.
+  const tilt = useTilt(4);
   return (
     <div
-      ref={spot.ref}
-      onPointerMove={spot.onPointerMove}
+      ref={tilt.ref}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
       className={
-        "group relative flex flex-col overflow-hidden rounded-2xl p-7 sm:p-8 " +
+        "group relative flex flex-col overflow-hidden rounded-2xl p-7 transition-transform duration-300 ease-out motion-reduce:transition-none sm:p-8 " +
         (dark ? "on-dark bg-ink text-white " : "bg-mist text-ink ") +
         className
       }
@@ -29,7 +32,7 @@ export function BentoCard({ tone = "mist", icon: Icon, title, className = "", ch
       <span
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
         style={{
-          background: `radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), ${
+          background: `radial-gradient(320px circle at var(--gx, 50%) var(--gy, 50%), ${
             dark ? "rgba(212,255,63,0.14)" : "rgba(255,255,255,0.9)"
           }, transparent 70%)`,
         }}

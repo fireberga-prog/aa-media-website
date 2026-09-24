@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Camera, CalendarCheck, Target } from "lucide-react";
 import {
   allVideos,
@@ -20,6 +21,7 @@ import VideoCard from "../components/VideoCard.jsx";
 import { useVideoModal } from "../components/VideoModal.jsx";
 import Bento, { BentoCard, BentoVideoCard } from "../components/Bento.jsx";
 import Steps from "../components/Steps.jsx";
+import ScrollTicker from "../components/ScrollTicker.jsx";
 
 const HERO_TAGS = ["Restaurants", "Nonprofits", "Short-form video"];
 
@@ -29,6 +31,12 @@ const HERO_SERIF = ["through", "creative", "media."];
 
 function Hero() {
   const reduce = useReducedMotion();
+  // As the hero scrolls away, the headline block shrinks, sinks and fades.
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const exitScale = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
+  const exitY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const exitOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const posters = allVideos.map(thumbFor).filter(Boolean);
 
   const container = {
@@ -55,54 +63,59 @@ function Hero() {
   );
 
   return (
-    <section className="relative overflow-hidden">
+    <section ref={heroRef} className="relative overflow-hidden">
       <FloatingMedia posters={posters} tags={HERO_TAGS} />
       <Container className="relative flex min-h-[78svh] flex-col items-center justify-center pb-16 pt-12 text-center md:pb-24 md:pt-16">
         <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col items-center md:px-[12%]"
+          style={reduce ? undefined : { scale: exitScale, y: exitY, opacity: exitOpacity }}
+          className="w-full"
         >
-          <h1 className="font-heading text-hero font-bold tracking-tightest">
-            <span className="block">
-              {HERO_BOLD.map((w, i) => (
-                <span key={w}>
-                  <Word>{w}</Word>
-                  {i < HERO_BOLD.length - 1 && " "}
-                </span>
-              ))}
-            </span>
-            <SerifItalic className="block">
-              {HERO_SERIF.map((w, i) => (
-                <span key={w}>
-                  <Word>{w}</Word>
-                  {i < HERO_SERIF.length - 1 && " "}
-                </span>
-              ))}
-            </SerifItalic>
-          </h1>
-          <motion.p variants={fadeUp} className="mt-8 max-w-xl text-lg text-ink/70">
-            A&amp;A Media creates engaging content that helps organizations connect with more
-            people online.
-          </motion.p>
           <motion.div
-            variants={fadeUp}
-            className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col items-center md:px-[12%]"
           >
-            <Button to="/work">See our work</Button>
-            <Button to="/about" variant="link">
-              About us
-            </Button>
-          </motion.div>
+            <h1 className="font-heading text-hero font-bold tracking-tightest">
+              <span className="block">
+                {HERO_BOLD.map((w, i) => (
+                  <span key={w}>
+                    <Word>{w}</Word>
+                    {i < HERO_BOLD.length - 1 && " "}
+                  </span>
+                ))}
+              </span>
+              <SerifItalic className="block">
+                {HERO_SERIF.map((w, i) => (
+                  <span key={w}>
+                    <Word>{w}</Word>
+                    {i < HERO_SERIF.length - 1 && " "}
+                  </span>
+                ))}
+              </SerifItalic>
+            </h1>
+            <motion.p variants={fadeUp} className="mt-8 max-w-xl text-lg text-ink/70">
+              A&amp;A Media creates engaging content that helps organizations connect with more
+              people online.
+            </motion.p>
+            <motion.div
+              variants={fadeUp}
+              className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
+            >
+              <Button to="/work">See our work</Button>
+              <Button to="/about" variant="link">
+                About us
+              </Button>
+            </motion.div>
 
-          {/* Small screens: a simple row of posters instead of floating tiles. */}
-          <motion.div variants={fadeUp} className="mt-12 grid w-full grid-cols-3 gap-3 md:hidden" aria-hidden="true">
-            {posters.slice(0, 3).map((src) => (
-              <div key={src} className="aspect-[4/5] overflow-hidden rounded-xl bg-mist">
-                <img src={src} alt="" className="h-full w-full object-cover" />
-              </div>
-            ))}
+            {/* Small screens: a simple row of posters instead of floating tiles. */}
+            <motion.div variants={fadeUp} className="mt-12 grid w-full grid-cols-3 gap-3 md:hidden" aria-hidden="true">
+              {posters.slice(0, 3).map((src) => (
+                <div key={src} className="aspect-[4/5] overflow-hidden rounded-xl bg-mist">
+                  <img src={src} alt="" className="h-full w-full object-cover" />
+                </div>
+              ))}
+            </motion.div>
           </motion.div>
         </motion.div>
       </Container>
@@ -266,21 +279,37 @@ function HowItWorks() {
 function ClosingBand() {
   const sample = featuredVideos[1] || allVideos[0];
   const poster = sample && thumbFor(sample);
+  const reduce = useReducedMotion();
+  // The two halves of the line slide in from opposite sides and meet as the
+  // band scrolls into view; the round photo spins in between them.
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center 0.55"] });
+  const leftX = useTransform(scrollYProgress, [0, 1], ["-18%", "0%"]);
+  const rightX = useTransform(scrollYProgress, [0, 1], ["18%", "0%"]);
+  const spin = useTransform(scrollYProgress, [0, 1], [-160, 0]);
+  const pop = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  const m = (style) => (reduce ? undefined : style);
+
   return (
-    <section className="bg-white">
-      <Container className="py-24 text-center sm:py-32">
+    <section ref={ref} className="overflow-hidden bg-white">
+      <Container className="py-16 text-center sm:py-24">
         <Reveal>
           <h2 className="mx-auto max-w-4xl font-heading text-[clamp(2.5rem,6.5vw,5.5rem)] font-bold leading-display tracking-tightest">
-            Have a story{" "}
+            <motion.span className="inline-block" style={m({ x: leftX })}>
+              Have a story
+            </motion.span>{" "}
             {poster && (
-              <span
-                className="inline-block h-[0.85em] w-[0.85em] translate-y-[0.08em] overflow-hidden rounded-full bg-mist align-baseline"
+              <motion.span
+                className="inline-block h-[0.85em] w-[0.85em] overflow-hidden rounded-full bg-mist align-[-0.08em]"
+                style={m({ rotate: spin, scale: pop })}
                 aria-hidden="true"
               >
                 <img src={poster} alt="" loading="lazy" className="h-full w-full object-cover" />
-              </span>
+              </motion.span>
             )}{" "}
-            <SerifItalic>worth telling?</SerifItalic>
+            <motion.span className="inline-block" style={m({ x: rightX })}>
+              <SerifItalic>worth telling?</SerifItalic>
+            </motion.span>
           </h2>
           <div className="mt-10">
             <Button to="/about#contact">Get in touch</Button>
@@ -303,6 +332,10 @@ export default function Home() {
       <Hero />
       <ClientStrip />
       <FeaturedWork openVideo={openVideo} />
+      <ScrollTicker
+        top={["Restaurants", "Nonprofits", "Short-form video", "Social content"]}
+        bottom={["Instagram", "TikTok", "Facebook", "YouTube Shorts", "LinkedIn"]}
+      />
       <WhatYouGet />
       <HowItWorks />
       <ClosingBand />
