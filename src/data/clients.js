@@ -4,6 +4,8 @@
 // HOW TO ADD WORK:
 // 1. Put the video in public/work/<client-slug>/ (run `npm run videos` to compress it).
 // 2. Add an entry to that client's `videos` array below.
+// 3. Optional: add `featured: true` to the video to show it under
+//    "Recent work" on the Home page.
 // A client with an empty `videos` array is hidden from the site automatically.
 //
 // `npm run videos` also writes a poster (<name>.jpg) and a short muted hover
@@ -18,6 +20,86 @@
 
 export const clients = [
   {
+    slug: "childrens-cove",
+    name: "Children's Cove",
+    category: "Nonprofit",
+    location: "",
+    summary: "",
+    services: ["Short-form video"],
+    instagram: "",
+    featured: true,
+    cover: "",
+    videos: [
+      {
+        id: "cc-pass-the-phone",
+        title: "Pass the Phone",
+        src: "/work/childrens-cove/pass-the-phone.mp4",
+        poster: "/work/childrens-cove/pass-the-phone.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+      {
+        id: "cc-day-in-the-life",
+        title: "A day in the life",
+        src: "/work/childrens-cove/day-in-the-life.mp4",
+        poster: "/work/childrens-cove/day-in-the-life.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+      {
+        id: "cc-three-things",
+        title: "3 things to know",
+        src: "/work/childrens-cove/three-things.mp4",
+        poster: "/work/childrens-cove/three-things.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+    ],
+  },
+  {
+    slug: "impactidol",
+    name: "ImpactIdol",
+    category: "Nonprofit",
+    location: "",
+    summary: "",
+    services: ["Short-form video"],
+    instagram: "",
+    featured: true,
+    cover: "",
+    videos: [
+      {
+        id: "ii-video-1",
+        title: "Volunteer coordination",
+        src: "/work/impactidol/impactidol-1.mp4",
+        poster: "/work/impactidol/impactidol-1.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+      {
+        id: "ii-video-2",
+        title: "Better tools, less time",
+        src: "/work/impactidol/impactidol-2.mp4",
+        poster: "/work/impactidol/impactidol-2.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+      {
+        id: "ii-video-3",
+        title: "Get more time",
+        src: "/work/impactidol/impactidol-3.mp4",
+        poster: "/work/impactidol/impactidol-3.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: true,
+      },
+    ],
+  },
+  {
     slug: "cafe-st-petersburg",
     name: "Café St. Petersburg",
     category: "Restaurant", // "Restaurant" | "Nonprofit"
@@ -25,7 +107,7 @@ export const clients = [
     summary: "", // one or two plain sentences, written by Alex
     services: ["Short-form video"], // shown as small tags
     instagram: "", // optional client profile link
-    featured: true, // shows on the Home page
+    featured: true, // client is featured (see featuredVideos below)
     cover: "/work/cafe-st-petersburg/reel-1.jpg",
     videos: [
       {
@@ -35,6 +117,7 @@ export const clients = [
         poster: "/work/cafe-st-petersburg/reel-1.jpg",
         orientation: "vertical", // "vertical" (9:16) | "horizontal" (16:9)
         length: "short", // "short" | "full"
+        // featured: true,   // add to put this video in "Recent work" on Home
       },
     ],
   },
@@ -105,32 +188,8 @@ export const clients = [
     videos: [],
   },
   {
-    slug: "childrens-cove",
-    name: "Children's Cove",
-    category: "Nonprofit",
-    location: "",
-    summary: "",
-    services: ["Short-form video"],
-    instagram: "",
-    featured: false,
-    cover: "",
-    videos: [],
-  },
-  {
     slug: "newton-tree-conservators",
     name: "Newton Tree Conservators",
-    category: "Nonprofit",
-    location: "",
-    summary: "",
-    services: ["Short-form video"],
-    instagram: "",
-    featured: false,
-    cover: "",
-    videos: [],
-  },
-  {
-    slug: "impactidol",
-    name: "ImpactIdol",
     category: "Nonprofit",
     location: "",
     summary: "",
@@ -147,8 +206,17 @@ export const clients = [
 // Clients that have at least one video. Everything on the site uses this.
 export const visibleClients = clients.filter((c) => c.videos.length > 0);
 
-// Visible clients marked `featured: true`, shown on the Home page.
+// Visible clients marked `featured: true`.
 export const featuredClients = visibleClients.filter((c) => c.featured);
+
+// "Recent work" on Home: every video marked `featured: true`, in the order
+// above. The first one gets the big card. If no video is marked, it falls
+// back to the first video of each featured client.
+export const featuredVideos = (() => {
+  const picked = allVideosList().filter((v) => v.featured);
+  if (picked.length) return picked;
+  return featuredClients.map((c) => videosFor(c)[0]);
+})();
 
 export function getClient(slug) {
   return clients.find((c) => c.slug === slug);
@@ -165,7 +233,11 @@ export function videosFor(client) {
 }
 
 // Every video on the site, flattened, with its client attached.
-export const allVideos = visibleClients.flatMap(videosFor);
+export const allVideos = allVideosList();
+
+function allVideosList() {
+  return visibleClients.flatMap(videosFor);
+}
 
 // Cover image for a client: its `cover`, or the first video's poster.
 export function coverFor(client) {
