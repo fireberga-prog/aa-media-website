@@ -19,7 +19,10 @@ export default function VideoCard({ video, client, size = "md", onOpen, eager = 
   }, [hovering]);
 
   const ratio = vertical ? "aspect-[9/16]" : "aspect-video";
-  const frame = size === "lg" ? ratio + " md:aspect-auto md:h-full" : ratio;
+  // The big card fills its 2x2 grid area on desktop; on smaller screens it
+  // uses a 4:5 frame so it doesn't get too tall.
+  const frame =
+    size === "lg" ? (vertical ? "aspect-[4/5]" : ratio) + " lg:aspect-auto lg:h-full" : ratio;
 
   return (
     <button

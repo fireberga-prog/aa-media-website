@@ -95,7 +95,7 @@ export const clients = [
         poster: "/work/impactidol/impactidol-3.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
+        // featured: true,
       },
     ],
   },

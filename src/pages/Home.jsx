@@ -198,8 +198,10 @@ function FeaturedWork({ openVideo }) {
           </Button>
         </Reveal>
 
-        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-          <div className={"col-span-2" + (rest.length >= 2 ? " md:row-span-2" : "")}>
+        {/* Phones and tablets: big card on top, then two per row. Desktop: big
+            card on the left (2x2) with four cards beside it. */}
+        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          <div className={"col-span-2" + (rest.length >= 2 ? " lg:row-span-2" : "")}>
             {card(first, "lg")}
           </div>
           {rest.map((v) => card(v, "md"))}
