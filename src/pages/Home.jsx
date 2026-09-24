@@ -21,7 +21,6 @@ import VideoCard from "../components/VideoCard.jsx";
 import { useVideoModal } from "../components/VideoModal.jsx";
 import Bento, { BentoCard, BentoVideoCard } from "../components/Bento.jsx";
 import Steps from "../components/Steps.jsx";
-import ScrollTicker from "../components/ScrollTicker.jsx";
 
 const HERO_TAGS = ["Restaurants", "Nonprofits", "Short-form video"];
 
@@ -332,10 +331,6 @@ export default function Home() {
       <Hero />
       <ClientStrip />
       <FeaturedWork openVideo={openVideo} />
-      <ScrollTicker
-        top={["Restaurants", "Nonprofits", "Short-form video", "Social content"]}
-        bottom={["Instagram", "TikTok", "Facebook", "YouTube Shorts", "LinkedIn"]}
-      />
       <WhatYouGet />
       <HowItWorks />
       <ClosingBand />

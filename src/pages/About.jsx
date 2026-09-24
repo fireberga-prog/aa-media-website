@@ -7,7 +7,6 @@ import SectionHeading from "../components/SectionHeading.jsx";
 import Steps from "../components/Steps.jsx";
 import ContactForm from "../components/ContactForm.jsx";
 import ParallaxImage from "../components/ParallaxImage.jsx";
-import ScrollText from "../components/ScrollText.jsx";
 import { useTilt } from "../hooks/usePointerEffects.js";
 import { CONTACT_EMAIL, SocialLinks } from "../components/Social.jsx";
 
@@ -56,14 +55,6 @@ function TeamCard({ name, role, photo, focus }) {
           decoding="async"
           style={{ objectPosition: focus }}
           amount={5}
-        />
-        <span
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
-          style={{
-            background:
-              "radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.25), transparent 50%)",
-          }}
-          aria-hidden="true"
         />
       </div>
       <figcaption className="mt-4 flex items-baseline justify-between gap-3">
@@ -127,13 +118,9 @@ export default function About() {
       <section className="bg-white" aria-label="Our story">
         <Container className="grid gap-10 pb-16 sm:pb-24 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            {/* Lights up word by word as you scroll; the accent underline
-                draws in once the line is in view. */}
-            <ScrollText
-              offset={["start 0.6", "end 0.2"]}
-              className="font-heading text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-tight"
-              parts={[{ text: "A creative media agency founded by two high school students." }]}
-            />
+            <p className="font-heading text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-tight">
+              A creative media agency founded by two high school students.
+            </p>
             <Reveal>
               <span className="mt-5 block h-[0.35rem] w-40 rounded-full bg-accent" aria-hidden="true" />
             </Reveal>
