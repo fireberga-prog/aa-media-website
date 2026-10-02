@@ -173,6 +173,10 @@ function ModalBody({ videos, index, onClose, onIndexChange }) {
             </span>
           )}
         </figcaption>
+        <p className="mt-3 max-w-[44ch] text-center text-xs text-white/50">
+          Videos are compressed so they load quickly here, so they look a little softer than the
+          originals.
+        </p>
       </figure>
     </motion.div>
   );
