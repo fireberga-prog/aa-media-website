@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring } from "framer-motion";
 import { pointerEffectsOn } from "../hooks/usePointerEffects.js";
 
-const INTERACTIVE = "a, button, [role='button'], input, textarea, select, label, summary";
-
-// A ring that trails the mouse. It grows over links and buttons, and turns
-// into a labeled accent bubble over anything with data-cursor="Label"
-// (video cards say "Play", client cards say "View"). Mouse only; hidden for
-// touch screens and reduced motion. The normal cursor stays visible.
+// A labeled accent bubble that follows the mouse over anything with
+// data-cursor="Label" (video cards say "Play", client cards say "View") and
+// is hidden everywhere else. Mouse only; hidden for touch screens and reduced
+// motion. The normal cursor stays visible.
 export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
-  const [mode, setMode] = useState("default"); // default | hover | label
   const [label, setLabel] = useState("");
   const [visible, setVisible] = useState(false);
   const [pressed, setPressed] = useState(false);
@@ -33,14 +30,7 @@ export default function Cursor() {
     const last = { x: -1, y: -1 };
     const update = (el) => {
       const labeled = el?.closest("[data-cursor]");
-      if (labeled) {
-        setMode("label");
-        setLabel(labeled.getAttribute("data-cursor"));
-      } else if (el?.closest(INTERACTIVE)) {
-        setMode("hover");
-      } else {
-        setMode("default");
-      }
+      setLabel(labeled ? labeled.getAttribute("data-cursor") : "");
     };
     const onMove = (e) => {
       if (e.pointerType !== "mouse") return;
@@ -76,40 +66,26 @@ export default function Cursor() {
 
   if (!enabled) return null;
 
-  const size = mode === "label" ? 88 : mode === "hover" ? 52 : 26;
+  const shown = visible && label !== "";
 
   return (
     <motion.div
       aria-hidden="true"
-      // Difference blending on the outer layer so the ring and the hover disc
-      // invert whatever is under them (readable on light and dark sections).
-      className={
-        "pointer-events-none fixed left-0 top-0 z-[300] " +
-        (mode === "label" ? "" : "mix-blend-difference")
-      }
+      className="pointer-events-none fixed left-0 top-0 z-[300]"
       style={{ x: sx, y: sy }}
     >
       <motion.div
-        className={
-          "flex items-center justify-center rounded-full " +
-          (mode === "label"
-            ? "text-ink shadow-[0_8px_24px_rgba(10,10,10,0.25)]"
-            : "border-[1.5px] border-white")
-        }
-        style={{ translateX: "-50%", translateY: "-50%" }}
+        className="flex items-center justify-center rounded-full bg-[#D4FF3F] text-ink shadow-[0_8px_24px_rgba(10,10,10,0.25)]"
+        style={{ translateX: "-50%", translateY: "-50%", width: 88, height: 88 }}
+        initial={false}
         animate={{
-          width: size,
-          height: size,
-          opacity: visible ? 1 : 0,
-          scale: pressed ? 0.85 : 1,
-          // Hover: a filled white disc that inverts what's under it.
-          backgroundColor:
-            mode === "label" ? "#D4FF3F" : mode === "hover" ? "#FFFFFF" : "rgba(255,255,255,0)",
+          opacity: shown ? 1 : 0,
+          scale: shown ? (pressed ? 0.85 : 1) : 0.3,
         }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
       >
         <AnimatePresence>
-          {mode === "label" && (
+          {label && (
             <motion.span
               key={label}
               className="text-xs font-bold uppercase tracking-kicker"
