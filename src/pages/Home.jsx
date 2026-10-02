@@ -24,6 +24,15 @@ import Steps from "../components/Steps.jsx";
 
 const HERO_TAGS = ["Restaurants", "Nonprofits", "Short-form video"];
 
+// Each video appears on Home at most once: "Recent work" gets the featured
+// ones, "What you get" and the closing band each take one of the rest, and
+// the hero's floating posters use whatever is left.
+const featuredIds = new Set(featuredVideos.map((v) => v.id));
+const otherVideos = allVideos.filter((v) => !featuredIds.has(v.id));
+const bentoVideo = otherVideos[0] || allVideos[0];
+const closingVideo = otherVideos[1] || allVideos[0];
+const heroVideos = otherVideos.length > 2 ? otherVideos.slice(2) : allVideos;
+
 // Split into words so each can rise in on a stagger.
 const HERO_BOLD = ["Growing", "communities"];
 const HERO_SERIF = ["through", "creative", "media."];
@@ -36,7 +45,7 @@ function Hero() {
   const exitScale = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
   const exitY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const exitOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const posters = allVideos.map(thumbFor).filter(Boolean);
+  const posters = heroVideos.map(thumbFor).filter(Boolean);
 
   const container = {
     hidden: {},
@@ -212,8 +221,7 @@ function FeaturedWork({ openVideo }) {
 }
 
 function WhatYouGet() {
-  // A clip that isn't already in "Recent work", so Home doesn't repeat itself.
-  const sample = allVideos.find((v) => !featuredVideos.includes(v)) || allVideos[0];
+  const sample = bentoVideo;
   return (
     <section className="bg-white">
       <Container className="py-16 sm:py-24">
@@ -278,7 +286,7 @@ function HowItWorks() {
 }
 
 function ClosingBand() {
-  const sample = featuredVideos[1] || allVideos[0];
+  const sample = closingVideo;
   const poster = sample && thumbFor(sample);
   const reduce = useReducedMotion();
   // The two halves of the line slide in from opposite sides and meet as the

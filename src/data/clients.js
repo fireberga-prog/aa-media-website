@@ -4,8 +4,9 @@
 // HOW TO ADD WORK:
 // 1. Put the video in public/work/<client-slug>/ (run `npm run videos` to compress it).
 // 2. Add an entry to that client's `videos` array below.
-// 3. Optional: add `featured: true` to the video to show it under
-//    "Recent work" on the Home page.
+// 3. Optional: add `featured: 1`, `featured: 2`, ... to the video to show it
+//    under "Recent work" on the Home page, in that order (1 gets the big card).
+//    Five fills the grid. Home never repeats these videos elsewhere.
 // A client with an empty `videos` array is hidden from the site automatically.
 //
 // `npm run videos` also writes a poster (<name>.jpg) and a short muted hover
@@ -37,7 +38,7 @@ export const clients = [
         poster: "/work/childrens-cove/pass-the-phone.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
+        featured: 2,
       },
       {
         id: "cc-day-in-the-life",
@@ -46,7 +47,7 @@ export const clients = [
         poster: "/work/childrens-cove/day-in-the-life.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
+        featured: 4,
       },
       {
         id: "cc-three-things",
@@ -55,7 +56,6 @@ export const clients = [
         poster: "/work/childrens-cove/three-things.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
       },
     ],
   },
@@ -77,7 +77,7 @@ export const clients = [
         poster: "/work/impactidol/impactidol-1.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
+        featured: 3,
       },
       {
         id: "ii-video-2",
@@ -86,7 +86,6 @@ export const clients = [
         poster: "/work/impactidol/impactidol-2.jpg",
         orientation: "vertical",
         length: "short",
-        featured: true,
       },
       {
         id: "ii-video-3",
@@ -95,7 +94,6 @@ export const clients = [
         poster: "/work/impactidol/impactidol-3.jpg",
         orientation: "vertical",
         length: "short",
-        // featured: true,
       },
       {
         id: "ii-video-4",
@@ -104,6 +102,7 @@ export const clients = [
         poster: "/work/impactidol/impactidol-4.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 5,
       },
     ],
   },
@@ -125,7 +124,7 @@ export const clients = [
         poster: "/work/cafe-st-petersburg/reel-1.jpg",
         orientation: "vertical", // "vertical" (9:16) | "horizontal" (16:9)
         length: "short", // "short" | "full"
-        // featured: true,   // add to put this video in "Recent work" on Home
+        // featured: 1,   // add to put this video in "Recent work" on Home
       },
     ],
   },
@@ -184,6 +183,7 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/ride-and-stride-event.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 1,
       },
       {
         id: "csfp-same-mission",
@@ -241,11 +241,14 @@ export const visibleClients = clients.filter((c) => c.videos.length > 0);
 // Visible clients marked `featured: true`.
 export const featuredClients = visibleClients.filter((c) => c.featured);
 
-// "Recent work" on Home: every video marked `featured: true`, in the order
-// above. The first one gets the big card. If no video is marked, it falls
-// back to the first video of each featured client.
+// "Recent work" on Home: every video with `featured` set, sorted by its
+// number (`true` counts as last). The first one gets the big card. If no video
+// is marked, it falls back to the first video of each featured client.
 export const featuredVideos = (() => {
-  const picked = allVideosList().filter((v) => v.featured);
+  const rank = (v) => (typeof v.featured === "number" ? v.featured : Infinity);
+  const picked = allVideosList()
+    .filter((v) => v.featured)
+    .sort((a, b) => rank(a) - rank(b));
   if (picked.length) return picked;
   return featuredClients.map((c) => videosFor(c)[0]);
 })();
