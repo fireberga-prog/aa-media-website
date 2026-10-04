@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { Camera, CalendarCheck, Target } from "lucide-react";
+import { Camera, CalendarCheck, Target, Trees } from "lucide-react";
 import {
   allVideos,
   featuredVideos,
@@ -220,6 +220,55 @@ function FeaturedWork({ openVideo }) {
   );
 }
 
+// Partnerships that are underway but have no published videos yet.
+const UPCOMING = [
+  {
+    name: "Newton Tree Conservancy",
+    category: "Nonprofit",
+    body: "We're in the process of partnering with Newton Tree Conservancy, the nonprofit that has planted thousands of street trees across Newton, to share their work and grow their community online.",
+  },
+];
+
+function WhatsNext() {
+  if (!UPCOMING.length) return null;
+  return (
+    <section className="bg-ink text-white">
+      <Container className="grid gap-10 py-16 sm:py-24 lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-16">
+        <Reveal>
+          <Kicker className="mb-4 text-white/60">Coming soon</Kicker>
+          <SectionHeading bold="What's" serif="next." size="xl" />
+          <p className="mt-6 max-w-md text-lg text-white/70">
+            New partnerships we're building right now. Their stories are on the way.
+          </p>
+        </Reveal>
+        <Reveal className="grid gap-4">
+          {UPCOMING.map((u) => (
+            <article
+              key={u.name}
+              className="rounded-2xl border border-white/15 bg-white/[0.04] p-6 sm:p-8"
+            >
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-ink">
+                  <Trees className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-sm font-medium">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-accent motion-reduce:animate-none" aria-hidden="true" />
+                  In progress
+                </span>
+                <span className="text-sm text-white/60">{u.category}</span>
+              </div>
+              <h3 className="mt-6 font-heading text-2xl font-bold tracking-tight sm:text-3xl">
+                {u.name}
+              </h3>
+              <p className="mt-3 leading-relaxed text-white/70">{u.body}</p>
+            </article>
+          ))}
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
+
 function WhatYouGet() {
   const sample = bentoVideo;
   return (
@@ -341,6 +390,7 @@ export default function Home() {
       <Hero />
       <ClientStrip />
       <FeaturedWork openVideo={openVideo} />
+      <WhatsNext />
       <WhatYouGet />
       <HowItWorks />
       <ClosingBand />
