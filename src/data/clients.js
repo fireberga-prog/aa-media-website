@@ -7,7 +7,9 @@
 // 3. Optional: add `featured: 1`, `featured: 2`, ... to the video to show it
 //    under "Recent work" on the Home page, in that order (1 gets the big card).
 //    Five fills the grid. Home never repeats these videos elsewhere.
-// A client with an empty `videos` array is hidden from the site automatically.
+// A client with an empty `videos` array is hidden from the site automatically,
+// unless it has `listed: true` (then it shows in "Work for" and on Work as
+// "coming soon").
 //
 // `npm run videos` also writes a poster (<name>.jpg) and a short muted hover
 // preview (<name>.preview.mp4) next to each video. Cards find the preview
@@ -20,6 +22,52 @@
 // without it the card just shows the poster on hover.
 
 export const clients = [
+  {
+    slug: "centre-street-food-pantry",
+    name: "Centre Street Food Pantry",
+    category: "Nonprofit",
+    location: "",
+    summary: "",
+    services: ["Short-form video"],
+    instagram: "",
+    featured: true,
+    cover: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
+    videos: [
+      {
+        id: "csfp-pantry",
+        title: "Food pantry video",
+        src: "/work/centre-street-food-pantry/centre-st-food-pantry.mp4",
+        poster: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
+      {
+        id: "csfp-ride-and-stride-promo",
+        title: "Ride & Stride for Food promo",
+        src: "/work/centre-street-food-pantry/ride-and-stride-promo.mp4",
+        poster: "/work/centre-street-food-pantry/ride-and-stride-promo.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
+      {
+        id: "csfp-ride-and-stride-event",
+        title: "Ride & Stride event recap",
+        src: "/work/centre-street-food-pantry/ride-and-stride-event.mp4",
+        poster: "/work/centre-street-food-pantry/ride-and-stride-event.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: 1,
+      },
+      {
+        id: "csfp-same-mission",
+        title: "Different organizations, same mission",
+        src: "/work/centre-street-food-pantry/same-mission.mp4",
+        poster: "/work/centre-street-food-pantry/same-mission.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
+    ],
+  },
   {
     slug: "childrens-cove",
     name: "Children's Cove",
@@ -148,52 +196,6 @@ export const clients = [
     ],
   },
   {
-    slug: "centre-street-food-pantry",
-    name: "Centre Street Food Pantry",
-    category: "Nonprofit",
-    location: "",
-    summary: "",
-    services: ["Short-form video"],
-    instagram: "",
-    featured: true,
-    cover: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
-    videos: [
-      {
-        id: "csfp-pantry",
-        title: "Food pantry video",
-        src: "/work/centre-street-food-pantry/centre-st-food-pantry.mp4",
-        poster: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
-        orientation: "vertical",
-        length: "short",
-      },
-      {
-        id: "csfp-ride-and-stride-promo",
-        title: "Ride & Stride for Food promo",
-        src: "/work/centre-street-food-pantry/ride-and-stride-promo.mp4",
-        poster: "/work/centre-street-food-pantry/ride-and-stride-promo.jpg",
-        orientation: "vertical",
-        length: "short",
-      },
-      {
-        id: "csfp-ride-and-stride-event",
-        title: "Ride & Stride event recap",
-        src: "/work/centre-street-food-pantry/ride-and-stride-event.mp4",
-        poster: "/work/centre-street-food-pantry/ride-and-stride-event.jpg",
-        orientation: "vertical",
-        length: "short",
-        featured: 1,
-      },
-      {
-        id: "csfp-same-mission",
-        title: "Different organizations, same mission",
-        src: "/work/centre-street-food-pantry/same-mission.mp4",
-        poster: "/work/centre-street-food-pantry/same-mission.jpg",
-        orientation: "vertical",
-        length: "short",
-      },
-    ],
-  },
-  {
     slug: "cafe-sol-azteca",
     name: "Café Sol Azteca",
     category: "Restaurant",
@@ -246,6 +248,7 @@ export const clients = [
     services: ["Short-form video"],
     instagram: "",
     featured: false,
+    listed: true, // shown on the site before it has videos ("coming soon")
     cover: "",
     videos: [],
   },
@@ -255,6 +258,9 @@ export const clients = [
 
 // Clients that have at least one video. Everything on the site uses this.
 export const visibleClients = clients.filter((c) => c.videos.length > 0);
+
+// Visible clients plus any marked `listed: true` (shown with no videos yet).
+export const listedClients = clients.filter((c) => c.videos.length > 0 || c.listed);
 
 // Visible clients marked `featured: true`.
 export const featuredClients = visibleClients.filter((c) => c.featured);

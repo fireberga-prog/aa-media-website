@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { categoryKey, videosFor, visibleClients } from "../data/clients.js";
+import { categoryKey, listedClients, videosFor } from "../data/clients.js";
 import usePageTitle from "../hooks/usePageTitle.js";
 import Container from "../components/Container.jsx";
 import Reveal from "../components/Reveal.jsx";
@@ -84,8 +84,9 @@ function ClientSection({ client, shaded, openVideo }) {
             {client.summary && <p className="mt-4 max-w-[45ch] text-ink/70">{client.summary}</p>}
             <ServiceTags services={client.services} className="mt-5" />
             <p className="mt-5 text-sm font-semibold text-ink/70">
-              {count} {count === 1 ? "video" : "videos"}
+              {count ? `${count} ${count === 1 ? "video" : "videos"}` : "Coming soon"}
             </p>
+            {count > 0 && (
             <Link
               to={`/work/${client.slug}`}
               className="group mt-4 inline-flex items-center gap-1.5 font-semibold underline decoration-ink/25 underline-offset-[6px] hover:decoration-ink"
@@ -93,9 +94,17 @@ function ClientSection({ client, shaded, openVideo }) {
               Open client page
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+            )}
           </div>
         </div>
         <div className="lg:col-span-8">
+          {count === 0 && (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3" aria-hidden="true">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="aspect-[9/16] rounded-2xl bg-ink/5 ring-1 ring-hairline" />
+              ))}
+            </div>
+          )}
           <VideoGrid client={client} openVideo={openVideo} />
         </div>
       </Container>
@@ -134,8 +143,8 @@ export default function Work() {
 
   const type = FILTERS.some((f) => f.value === params.get("type")) ? params.get("type") : "";
   const shown = type
-    ? visibleClients.filter((c) => categoryKey(c.category) === type)
-    : visibleClients;
+    ? listedClients.filter((c) => categoryKey(c.category) === type)
+    : listedClients;
 
   const active = useActiveSection(shown.map((c) => c.slug));
   const jumpRef = useRef(null);

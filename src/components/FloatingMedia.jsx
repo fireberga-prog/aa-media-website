@@ -20,6 +20,7 @@ const TILE_SPOTS = [
   { top: "4%", left: "84%", size: "w-24 lg:w-28", shape: "rounded-full", ratio: "aspect-square", rate: 90, depth: 20 },
   { top: "42%", left: "88%", size: "w-20 lg:w-32", shape: "rounded-2xl", ratio: "aspect-[4/5]", rate: 150, depth: 32 },
   { top: "76%", left: "76%", size: "w-16 lg:w-24", shape: "rounded-2xl", ratio: "aspect-square", rate: 70, depth: 18 },
+  { top: "84%", left: "30%", size: "w-16 lg:w-20", shape: "rounded-full", ratio: "aspect-square", rate: 100, depth: 24 },
 ];
 
 // The last tag sits along the bottom edge, below the buttons, and drifts

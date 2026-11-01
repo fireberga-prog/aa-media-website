@@ -5,11 +5,11 @@ import {
   allVideos,
   featuredVideos,
   getClient,
+  listedClients,
   posterSrcSet,
   previewFor,
   thumbFor,
   videosFor,
-  visibleClients,
 } from "../data/clients.js";
 import usePageTitle from "../hooks/usePageTitle.js";
 import Container from "../components/Container.jsx";
@@ -26,12 +26,14 @@ const HERO_TAGS = ["Restaurants", "Nonprofits", "Short-form video"];
 
 // Each video appears on Home at most once: "Recent work" gets the featured
 // ones, "What you get" and the closing band each take one of the rest, and
-// the hero's floating posters use whatever is left.
+// the hero uses the photos in public/home/.
 const featuredIds = new Set(featuredVideos.map((v) => v.id));
 const otherVideos = allVideos.filter((v) => !featuredIds.has(v.id));
 const bentoVideo = otherVideos[0] || allVideos[0];
 const closingVideo = otherVideos[1] || allVideos[0];
-const heroVideos = otherVideos.length > 2 ? otherVideos.slice(2) : allVideos;
+
+// Photos floating around the hero headline (first three also show on phones).
+const HERO_PHOTOS = [1, 2, 3, 4, 5, 6, 7].map((n) => `/home/hero-${n}.jpg`);
 
 // Split into words so each can rise in on a stagger.
 const HERO_BOLD = ["Growing", "communities"];
@@ -45,7 +47,7 @@ function Hero() {
   const exitScale = useTransform(scrollYProgress, [0, 1], [1, 0.86]);
   const exitY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const exitOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const posters = heroVideos.map(thumbFor).filter(Boolean);
+  const posters = HERO_PHOTOS;
 
   const container = {
     hidden: {},
@@ -133,7 +135,7 @@ function Hero() {
 
 function ClientStrip() {
   const reduce = useReducedMotion();
-  const names = visibleClients.map((c) => c.name);
+  const names = listedClients.map((c) => c.name);
   const Name = ({ children }) => (
     <span className="whitespace-nowrap font-heading text-lg font-bold tracking-tight text-ink/60 sm:text-xl">
       {children}
