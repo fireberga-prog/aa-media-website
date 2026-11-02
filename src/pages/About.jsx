@@ -6,16 +6,7 @@ import Reveal from "../components/Reveal.jsx";
 import SectionHeading from "../components/SectionHeading.jsx";
 import Steps from "../components/Steps.jsx";
 import ContactForm from "../components/ContactForm.jsx";
-import ParallaxImage from "../components/ParallaxImage.jsx";
-import { useTilt } from "../hooks/usePointerEffects.js";
 import { CONTACT_EMAIL, SocialLinks } from "../components/Social.jsx";
-
-/* The team. `focus` sets how the photo is framed inside the card (CSS
-   object-position); nudge it if a face sits too high or low. */
-const TEAM = [
-  { name: "Andrew", role: "Co-founder", photo: "/team/andrew.jpg", focus: "center top" },
-  { name: "Alex", role: "Co-founder", photo: "/team/alex.jpg", focus: "center center" },
-];
 
 const FAQ = [
   {
@@ -35,35 +26,6 @@ const FAQ = [
     a: "We're happy to work across any social media platform. We have the most experience with Instagram and TikTok, but our content can be adapted for Facebook, YouTube Shorts, LinkedIn, and more.",
   },
 ];
-
-function TeamCard({ name, role, photo, focus }) {
-  const tilt = useTilt(5);
-  return (
-    <figure className="group">
-      <div
-        ref={tilt.ref}
-        onPointerMove={tilt.onPointerMove}
-        onPointerLeave={tilt.onPointerLeave}
-        className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-mist transition-transform duration-300 ease-out motion-reduce:transition-none"
-      >
-        <ParallaxImage
-          className="h-full w-full"
-          imgClassName="grayscale transition-[filter] duration-500 group-hover:grayscale-0"
-          src={photo}
-          alt={`${name}, ${role.toLowerCase()} of A&A Media`}
-          loading="lazy"
-          decoding="async"
-          style={{ objectPosition: focus }}
-          amount={5}
-        />
-      </div>
-      <figcaption className="mt-4 flex items-baseline justify-between gap-3">
-        <span className="font-heading text-2xl font-bold tracking-tight">{name}</span>
-        <span className="text-xs font-semibold uppercase tracking-kicker text-ink/70">{role}</span>
-      </figcaption>
-    </figure>
-  );
-}
 
 function FaqItem({ id, question, children }) {
   const [open, setOpen] = useState(false);
@@ -101,7 +63,7 @@ function FaqItem({ id, question, children }) {
 export default function About() {
   usePageTitle(
     "About us",
-    "A&A Media is a creative media agency founded by two high school students. Meet the team and get in touch."
+    "A&A Media is a creative media agency helping local nonprofits, charities, and small businesses tell their stories. Get in touch."
   );
 
   return (
@@ -119,7 +81,7 @@ export default function About() {
         <Container className="grid gap-10 pb-16 sm:pb-24 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <p className="font-heading text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold leading-[1.1] tracking-tight">
-              A creative media agency founded by two high school students.
+              A creative media agency built to tell community stories.
             </p>
             <Reveal>
               <span className="mt-5 block h-[0.35rem] w-40 rounded-full bg-accent" aria-hidden="true" />
@@ -127,9 +89,8 @@ export default function About() {
           </div>
           <Reveal className="max-w-[60ch] space-y-5 text-lg text-ink/70 lg:col-span-7">
             <p>
-              A&amp;A Media is a creative media agency founded by two high school students with a
-              passion for storytelling, digital marketing, and making a positive impact in our
-              community.
+              A&amp;A Media is a creative media agency driven by a passion for storytelling,
+              digital marketing, and making a positive impact in our community.
             </p>
             <p>
               Our mission is to help local nonprofits, charities, and small businesses grow their
@@ -142,20 +103,6 @@ export default function About() {
               looks professional but also helps organizations expand their reach, strengthen their
               brand, and connect with the communities they serve.
             </p>
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* Team */}
-      <section className="bg-fog">
-        <Container className="py-16 sm:py-24">
-          <Reveal>
-            <SectionHeading bold="The" serif="team." size="lg" />
-          </Reveal>
-          <Reveal className="mt-12 grid max-w-4xl gap-6 sm:grid-cols-2 sm:gap-8">
-            {TEAM.map((m) => (
-              <TeamCard key={m.name} {...m} />
-            ))}
           </Reveal>
         </Container>
       </section>
