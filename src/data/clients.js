@@ -105,6 +105,14 @@ export const clients = [
         orientation: "vertical",
         length: "short",
       },
+      {
+        id: "cc-circle-of-security",
+        title: "Circle of Security",
+        src: "/work/childrens-cove/cosp.mp4",
+        poster: "/work/childrens-cove/cosp.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
     ],
   },
   {
