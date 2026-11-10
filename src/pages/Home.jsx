@@ -285,7 +285,7 @@ function WhatYouGet() {
             </BentoCard>
             {sample && (
               <BentoVideoCard
-                src={previewFor(sample)}
+                src={sample.clip || previewFor(sample)}
                 poster={sample.poster}
                 srcSet={posterSrcSet(sample)}
                 label={sample.clientName}

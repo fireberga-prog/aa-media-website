@@ -71,6 +71,8 @@ export const clients = [
         title: "Thanksgiving at the pantry",
         src: "/work/centre-street-food-pantry/thanksgiving.mp4",
         poster: "/work/centre-street-food-pantry/thanksgiving.jpg",
+        // Sharp 8s muted 1080p loop for the big "What you get" card on Home.
+        clip: "/work/centre-street-food-pantry/thanksgiving.hq.mp4",
         orientation: "vertical",
         length: "short",
       },
