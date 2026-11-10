@@ -180,21 +180,19 @@ function ClientStrip() {
 }
 
 function FeaturedWork({ openVideo }) {
-  const [first, ...rest] = featuredVideos;
-  if (!first) return null;
+  if (!featuredVideos.length) return null;
   // Open the player on the clicked video, with arrows stepping through the
   // rest of that client's videos.
   const open = (v) => {
     const list = videosFor(getClient(v.clientSlug));
     openVideo(list, Math.max(0, list.findIndex((x) => x.id === v.id)));
   };
-  const card = (v, size) => (
+  const card = (v) => (
     <VideoCard
       key={v.id}
       video={v}
       client={getClient(v.clientSlug)}
-      size={size}
-      className={size === "lg" ? "h-full" : ""}
+      size="md"
       onOpen={() => open(v)}
     />
   );
@@ -209,13 +207,9 @@ function FeaturedWork({ openVideo }) {
           </Button>
         </Reveal>
 
-        {/* Phones and tablets: big card on top, then two per row. Desktop: big
-            card on the left (2x2) with four cards beside it. */}
-        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          <div className={"col-span-2" + (rest.length >= 2 ? " lg:row-span-2" : "")}>
-            {card(first, "lg")}
-          </div>
-          {rest.map((v) => card(v, "md"))}
+        {/* Equal-sized cards: two per row on phones, three per row from tablets up. */}
+        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+          {featuredVideos.map(card)}
         </Reveal>
       </Container>
     </section>

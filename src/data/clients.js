@@ -5,8 +5,8 @@
 // 1. Put the video in public/work/<client-slug>/ (run `npm run videos` to compress it).
 // 2. Add an entry to that client's `videos` array below.
 // 3. Optional: add `featured: 1`, `featured: 2`, ... to the video to show it
-//    under "Recent work" on the Home page, in that order (1 gets the big card).
-//    Five fills the grid. Home never repeats these videos elsewhere.
+//    under "Recent work" on the Home page, in that order (all cards are the
+//    same size; six fills two rows of three). Home never repeats these videos.
 // A client with an empty `videos` array is hidden from the site automatically,
 // unless it has `listed: true` (then it shows in "Work for" and on Work as
 // "coming soon").
@@ -66,6 +66,15 @@ export const clients = [
         orientation: "vertical",
         length: "short",
         featured: 1,
+      },
+      {
+        id: "csfp-thanksgiving",
+        title: "Thanksgiving at the pantry",
+        src: "/work/centre-street-food-pantry/thanksgiving.mp4",
+        poster: "/work/centre-street-food-pantry/thanksgiving.jpg",
+        orientation: "vertical",
+        length: "short",
+        featured: 6,
       },
     ],
   },
