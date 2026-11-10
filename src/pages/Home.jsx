@@ -29,7 +29,9 @@ const HERO_TAGS = ["Restaurants", "Nonprofits", "Short-form video"];
 // the hero uses the photos in public/home/.
 const featuredIds = new Set(featuredVideos.map((v) => v.id));
 const otherVideos = allVideos.filter((v) => !featuredIds.has(v.id));
-const bentoVideo = otherVideos[0] || allVideos[0];
+// "What you get" shows the Centre Street Thanksgiving video.
+const bentoVideo =
+  allVideos.find((v) => v.id === "csfp-thanksgiving") || otherVideos[0] || allVideos[0];
 const closingVideo = otherVideos[1] || allVideos[0];
 
 // Photos floating around the hero headline (first three also show on phones).
@@ -207,8 +209,10 @@ function FeaturedWork({ openVideo }) {
           </Button>
         </Reveal>
 
-        {/* Equal-sized cards: two per row on phones, three per row from tablets up. */}
-        <Reveal className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+        {/* Equal-sized cards: two per row on phones, three per row from tablets up.
+            From tablets up the grid's width follows the screen height so both
+            rows fit on screen at once. */}
+        <Reveal className="mx-auto mt-8 grid grid-cols-2 gap-3 sm:max-w-[min(100%,max(32rem,calc((100svh-9rem)*27/32+2rem)))] sm:grid-cols-3 sm:gap-4">
           {featuredVideos.map(card)}
         </Reveal>
       </Container>

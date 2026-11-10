@@ -35,7 +35,7 @@ export const clients = [
     videos: [
       {
         id: "csfp-pantry",
-        title: "Food pantry video",
+        title: "Birthday program",
         src: "/work/centre-street-food-pantry/centre-st-food-pantry.mp4",
         poster: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
         orientation: "vertical",
