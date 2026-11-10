@@ -201,21 +201,21 @@ function FeaturedWork({ openVideo }) {
 
   return (
     <section className="bg-fog">
-      <Container className="py-16 sm:py-24">
+      <Container className="pt-16 sm:pt-24">
         <Reveal className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading bold="Recent" serif="work." size="xl" />
           <Button to="/work" variant="link" className="shrink-0">
             View all work
           </Button>
         </Reveal>
-
-        {/* Equal-sized cards: two per row on phones, three per row from tablets up.
-            From tablets up the grid's width follows the screen height so both
-            rows fit on screen at once. */}
-        <Reveal className="mx-auto mt-8 grid grid-cols-2 gap-3 sm:max-w-[min(100%,max(32rem,calc((100svh-9rem)*27/32+2rem)))] sm:grid-cols-3 sm:gap-4">
-          {featuredVideos.map(card)}
-        </Reveal>
       </Container>
+
+      {/* Edge to edge, equal-sized cards: two per row on phones, three on
+          tablets, all six in one row on laptops and up so they're all visible
+          at once. */}
+      <Reveal className="mx-auto mt-8 grid max-w-[1800px] grid-cols-2 gap-3 px-4 pb-16 sm:grid-cols-3 sm:gap-4 sm:px-8 sm:pb-24 lg:grid-cols-6">
+        {featuredVideos.map(card)}
+      </Reveal>
     </section>
   );
 }
