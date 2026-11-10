@@ -225,9 +225,9 @@ function FeaturedWork({ openVideo }) {
 // Partnerships that are underway but have no published videos yet.
 const UPCOMING = [
   {
-    name: "Newton Tree Conservancy",
+    name: "Newton Conservators",
     category: "Nonprofit",
-    body: "We're in the process of partnering with Newton Tree Conservancy, the nonprofit that has planted thousands of street trees across Newton, to share their work and grow their community online.",
+    body: "We're in the process of partnering with Newton Conservators, the nonprofit that protects and cares for Newton's open spaces, to share their work and grow their community online.",
   },
 ];
 
