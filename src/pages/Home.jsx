@@ -32,7 +32,7 @@ const otherVideos = allVideos.filter((v) => !featuredIds.has(v.id));
 // "What you get" shows the Centre Street Thanksgiving video.
 const bentoVideo =
   allVideos.find((v) => v.id === "csfp-thanksgiving") || otherVideos[0] || allVideos[0];
-const closingVideo = otherVideos[1] || allVideos[0];
+const closingVideo = otherVideos.find((v) => v.id !== bentoVideo?.id) || allVideos[0];
 
 // Photos floating around the hero headline (first three also show on phones).
 const HERO_PHOTOS = [1, 2, 3, 4, 5, 6, 7].map((n) => `/home/hero-${n}.jpg`);

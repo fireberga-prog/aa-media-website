@@ -48,6 +48,7 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/ride-and-stride-promo.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 6,
       },
       {
         id: "csfp-ride-and-stride-event",
@@ -56,6 +57,7 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/ride-and-stride-event.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 4,
       },
       {
         id: "csfp-same-mission",
@@ -189,7 +191,6 @@ export const clients = [
         orientation: "vertical", // "vertical" (9:16) | "horizontal" (16:9)
         length: "short", // "short" | "full"
         // featured: 6,   // add to put this video in "Recent work" on Home
-        featured: 6,
       },
     ],
   },
@@ -232,7 +233,6 @@ export const clients = [
         poster: "/work/cafe-sol-azteca/promo.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 4,
       },
     ],
   },
