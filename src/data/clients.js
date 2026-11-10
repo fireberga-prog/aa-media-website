@@ -94,7 +94,7 @@ export const clients = [
         poster: "/work/childrens-cove/pass-the-phone.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 3,
+        featured: 2,
       },
       {
         id: "cc-day-in-the-life",
@@ -140,7 +140,7 @@ export const clients = [
         poster: "/work/impactidol/impactidol-1.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 5,
+        featured: 3,
       },
       {
         id: "ii-video-2",
@@ -186,7 +186,7 @@ export const clients = [
         poster: "/work/cafe-st-petersburg/reel-1.jpg",
         orientation: "vertical", // "vertical" (9:16) | "horizontal" (16:9)
         length: "short", // "short" | "full"
-        // featured: 1,   // add to put this video in "Recent work" on Home
+        // featured: 6,   // add to put this video in "Recent work" on Home
         featured: 6,
       },
     ],
@@ -230,7 +230,7 @@ export const clients = [
         poster: "/work/cafe-sol-azteca/promo.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 2,
+        featured: 4,
       },
     ],
   },
@@ -252,7 +252,7 @@ export const clients = [
         poster: "/work/bills-pizzeria/promo.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 4,
+        featured: 5,
       },
     ],
   },
