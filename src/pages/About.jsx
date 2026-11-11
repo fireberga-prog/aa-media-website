@@ -94,9 +94,10 @@ export default function About() {
             </p>
             <p>
               Our mission is to help local nonprofits, charities, and small businesses grow their
-              online presence through engaging short-form videos and social media content. We
-              believe every organization has a story worth sharing, and our goal is to help those
-              stories reach more people.
+              online presence through engaging short-form videos and social media content. We’re
+              passionate about environmental causes, but we’re proud to work with organizations of
+              all kinds. We believe every organization has a story worth sharing, and our goal is
+              to help those stories reach more people.
             </p>
             <p>
               By combining creativity with thoughtful strategy, we create content that not only
