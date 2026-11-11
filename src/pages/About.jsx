@@ -11,7 +11,7 @@ import { CONTACT_EMAIL, SocialLinks } from "../components/Social.jsx";
 const FAQ = [
   {
     q: "How much does it cost?",
-    a: "We are passionate about supporting our community and offer free services to nonprofits and charitable organizations, especially those helping environmental causes.",
+    a: "We are passionate about supporting our community and offer free services to many nonprofits and charitable organizations working on causes we care about.",
   },
   {
     q: "What do you need from me to get started?",
