@@ -11,7 +11,7 @@ import { CONTACT_EMAIL, SocialLinks } from "../components/Social.jsx";
 const FAQ = [
   {
     q: "How much does it cost?",
-    a: "Pricing varies based on your needs and goals. We start with a complimentary trial video so you can experience our work before making any commitment. Additionally, we are passionate about supporting our community and offer free services to nonprofits and charitable organizations.",
+    a: "We are passionate about supporting our community and offer free services to nonprofits and charitable organizations, especially those helping environmental causes.",
   },
   {
     q: "What do you need from me to get started?",

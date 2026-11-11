@@ -271,6 +271,19 @@ export const clients = [
     cover: "",
     videos: [],
   },
+  {
+    slug: "newton-conservators",
+    name: "Newton Conservators",
+    category: "Nonprofit",
+    location: "",
+    summary: "",
+    services: ["Short-form video"],
+    instagram: "",
+    featured: false,
+    listed: true, // shown on the site before it has videos ("coming soon")
+    cover: "",
+    videos: [],
+  },
 ];
 
 /* ---------- helpers (nothing below needs editing) ---------- */
