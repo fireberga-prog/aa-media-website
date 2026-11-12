@@ -34,6 +34,14 @@ export const clients = [
     cover: "/work/centre-street-food-pantry/centre-st-food-pantry.jpg",
     videos: [
       {
+        id: "csfp-thanksgiving-mission",
+        title: "Bringing Thanksgiving to every table",
+        src: "/work/centre-street-food-pantry/thanksgiving-mission.mp4",
+        poster: "/work/centre-street-food-pantry/thanksgiving-mission.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
+      {
         id: "csfp-thanksgiving",
         title: "Thanksgiving at the pantry",
         src: "/work/centre-street-food-pantry/thanksgiving.mp4",
