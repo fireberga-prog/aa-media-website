@@ -211,6 +211,19 @@ export const clients = [
     ],
   },
   {
+    slug: "newton-conservators",
+    name: "Newton Conservators",
+    category: "Nonprofit",
+    location: "",
+    summary: "",
+    services: ["Short-form video"],
+    instagram: "",
+    featured: false,
+    listed: true, // shown on the site before it has videos ("coming soon")
+    cover: "",
+    videos: [],
+  },
+  {
     slug: "cafe-st-petersburg",
     name: "Café St. Petersburg",
     category: "Restaurant", // "Restaurant" | "Nonprofit"
@@ -294,19 +307,6 @@ export const clients = [
         length: "short",
       },
     ],
-  },
-  {
-    slug: "newton-conservators",
-    name: "Newton Conservators",
-    category: "Nonprofit",
-    location: "",
-    summary: "",
-    services: ["Short-form video"],
-    instagram: "",
-    featured: false,
-    listed: true, // shown on the site before it has videos ("coming soon")
-    cover: "",
-    videos: [],
   },
 ];
 
