@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import { categoryKey, listedClients, videosFor } from "../data/clients.js";
 import usePageTitle from "../hooks/usePageTitle.js";
 import Container from "../components/Container.jsx";
@@ -86,15 +85,6 @@ function ClientSection({ client, shaded, openVideo }) {
             <p className="mt-5 text-sm font-semibold text-ink/70">
               {count ? `${count} ${count === 1 ? "video" : "videos"}` : "Coming soon"}
             </p>
-            {count > 0 && (
-            <Link
-              to={`/work/${client.slug}`}
-              className="group mt-4 inline-flex items-center gap-1.5 font-semibold underline decoration-ink/25 underline-offset-[6px] hover:decoration-ink"
-            >
-              Open client page
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-            )}
           </div>
         </div>
         <div className="lg:col-span-8">

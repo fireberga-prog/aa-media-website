@@ -362,11 +362,6 @@ function allVideosList() {
   return visibleClients.flatMap(videosFor);
 }
 
-// Cover image for a client: its `cover`, or the first video's poster.
-export function coverFor(client) {
-  return client.cover || client.videos[0]?.poster || "";
-}
-
 // Hover preview clip for a video. Local files get the `.preview.mp4` that
 // `npm run videos` writes; hosted videos use `preview` if it is set.
 export function previewFor(video) {

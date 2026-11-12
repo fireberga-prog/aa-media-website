@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import { MotionConfig, motion, useReducedMotion } from "framer-motion";
 import Nav from "./components/Nav.jsx";
 import Footer from "./components/Footer.jsx";
@@ -11,8 +11,14 @@ import NotFound from "./pages/NotFound.jsx";
 
 // Other pages load on demand so the Home page ships less JavaScript.
 const Work = lazy(() => import("./pages/Work.jsx"));
-const ClientPage = lazy(() => import("./pages/ClientPage.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
+
+// Client pages were removed. Old links (/work/<client>) go to that client's
+// section on the Work page instead.
+function OldClientPage() {
+  const { slug } = useParams();
+  return <Navigate to={`/work#${slug}`} replace />;
+}
 
 export default function App() {
   const location = useLocation();
@@ -50,7 +56,7 @@ export default function App() {
             <Routes location={location}>
               <Route path="/" element={<Home />} />
               <Route path="/work" element={<Work />} />
-              <Route path="/work/:slug" element={<ClientPage />} />
+              <Route path="/work/:slug" element={<OldClientPage />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
