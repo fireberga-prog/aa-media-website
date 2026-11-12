@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Instagram } from "lucide-react";
-import { coverFor, getClient, visibleClients } from "../data/clients.js";
+import { coverFor, getClient, videosFor, visibleClients } from "../data/clients.js";
 import usePageTitle from "../hooks/usePageTitle.js";
 import Container from "../components/Container.jsx";
 import Reveal from "../components/Reveal.jsx";
@@ -29,6 +30,16 @@ function ClientView({ client }) {
   const cover = coverFor(client);
   const count = client.videos.length;
   const more = visibleClients.filter((c) => c.slug !== client.slug).slice(0, 3);
+
+  // `?video=<id>` opens that video straight away (used by the holiday banner).
+  const [params] = useSearchParams();
+  const videoId = params.get("video");
+  useEffect(() => {
+    if (!videoId) return;
+    const list = videosFor(client);
+    const index = list.findIndex((v) => v.id === videoId);
+    if (index !== -1) openVideo(list, index);
+  }, [videoId, client, openVideo]);
 
   return (
     <>

@@ -6,11 +6,6 @@
   /* Brand accent (lime), as R G B. */
   --accent: 212 255 63;
 }
-/* Thanksgiving season: warm autumn amber instead of lime (src/data/season.js). */
-html.theme-thanksgiving {
-  --accent: 242 166 58;
-}
-
 html {
   scroll-behavior: smooth;
   /* Insurance against any horizontal scroll on small screens. */
@@ -97,39 +92,5 @@ body {
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Thanksgiving leaves drifting down behind the Home hero. */
-.falling-leaf {
-  position: absolute;
-  top: -40px;
-  opacity: 0;
-  animation-name: leaf-fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-@keyframes leaf-fall {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.85;
-  }
-  50% {
-    transform: translate(40px, 45vh) rotate(160deg);
-  }
-  90% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate(-20px, 90vh) rotate(320deg);
-    opacity: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .falling-leaf {
-    display: none;
   }
 }

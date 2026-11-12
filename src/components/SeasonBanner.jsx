@@ -10,7 +10,7 @@ export default function SeasonBanner() {
       Happy Thanksgiving from A&amp;A Media.{" "}
       <span className="hidden sm:inline">We're grateful for every table we got to film at. </span>
       <Link
-        to="/work/centre-street-food-pantry"
+        to="/work/centre-street-food-pantry?video=csfp-thanksgiving-mission"
         className="whitespace-nowrap text-accent underline decoration-1 underline-offset-4 hover:text-white"
       >
         Watch our Thanksgiving work
