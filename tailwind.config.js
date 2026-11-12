@@ -9,7 +9,8 @@ export default {
         mist: "#F4F4F4",
         fog: "#F7F7F7",
         hairline: "#E5E5E5",
-        accent: "#D4FF3F",
+        // Set in index.css (--accent) so the seasonal theme can swap it.
+        accent: "rgb(var(--accent) / <alpha-value>)",
       },
       fontFamily: {
         heading: ['"Space Grotesk"', "system-ui", "sans-serif"],

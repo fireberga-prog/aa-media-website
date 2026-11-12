@@ -33,7 +33,7 @@ export function BentoCard({ tone = "mist", icon: Icon, title, className = "", ch
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 motion-reduce:hidden"
         style={{
           background: `radial-gradient(320px circle at var(--gx, 50%) var(--gy, 50%), ${
-            dark ? "rgba(212,255,63,0.14)" : "rgba(255,255,255,0.9)"
+            dark ? "rgb(var(--accent) / 0.14)" : "rgba(255,255,255,0.9)"
           }, transparent 70%)`,
         }}
         aria-hidden="true"

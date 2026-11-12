@@ -5,6 +5,7 @@ import Nav from "./components/Nav.jsx";
 import Footer from "./components/Footer.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import Cursor from "./components/Cursor.jsx";
+import SeasonBanner from "./components/SeasonBanner.jsx";
 import Home from "./pages/Home.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
@@ -33,6 +34,7 @@ export default function App() {
         Skip to content
       </a>
       <div className="flex min-h-screen flex-col font-body">
+        <SeasonBanner />
         <Nav />
         {/* 200ms fade between pages. Keyed on the path only, so filter
             changes on /work don't re-fade the page. */}

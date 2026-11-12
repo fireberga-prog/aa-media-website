@@ -16,6 +16,7 @@ import Container from "../components/Container.jsx";
 import Button from "../components/Button.jsx";
 import Reveal from "../components/Reveal.jsx";
 import SectionHeading, { Kicker, SerifItalic } from "../components/SectionHeading.jsx";
+import FallingLeaves from "../components/FallingLeaves.jsx";
 import FloatingMedia from "../components/FloatingMedia.jsx";
 import VideoCard from "../components/VideoCard.jsx";
 import { useVideoModal } from "../components/VideoModal.jsx";
@@ -76,6 +77,7 @@ function Hero() {
 
   return (
     <section ref={heroRef} className="relative overflow-hidden">
+      <FallingLeaves />
       <FloatingMedia posters={posters} tags={HERO_TAGS} />
       <Container className="relative flex min-h-[78svh] flex-col items-center justify-center pb-16 pt-12 text-center md:pb-24 md:pt-16">
         <motion.div

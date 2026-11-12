@@ -75,7 +75,7 @@ export default function Cursor() {
       style={{ x: sx, y: sy }}
     >
       <motion.div
-        className="flex items-center justify-center rounded-full bg-[#D4FF3F] text-ink shadow-[0_8px_24px_rgba(10,10,10,0.25)]"
+        className="flex items-center justify-center rounded-full bg-accent text-ink shadow-[0_8px_24px_rgba(10,10,10,0.25)]"
         style={{ translateX: "-50%", translateY: "-50%", width: 88, height: 88 }}
         initial={false}
         animate={{
