@@ -11,7 +11,7 @@ export default function SeasonBanner() {
       <span className="hidden sm:inline">We're grateful for every table we got to film at. </span>
       <Link
         to="/work/centre-street-food-pantry?video=csfp-thanksgiving-mission"
-        className="whitespace-nowrap text-accent underline decoration-1 underline-offset-4 hover:text-white"
+        className="whitespace-nowrap text-[#F2A63A] underline decoration-1 underline-offset-4 hover:text-white"
       >
         Watch our Thanksgiving work
       </Link>
