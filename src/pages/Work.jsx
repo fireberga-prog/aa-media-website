@@ -70,12 +70,12 @@ function ClientSection({ client, shaded, openVideo }) {
       className={"work-section " + (shaded ? "bg-mist" : "bg-white")}
     >
       <Container className="grid gap-8 py-12 sm:py-16 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-3">
           <div className="lg:sticky lg:top-36">
             <Kicker className="text-ink/70">{client.category}</Kicker>
             <h2
               id={client.slug + "-name"}
-              className="mt-3 font-heading text-[clamp(2rem,4vw,3rem)] font-bold leading-display tracking-tightest"
+              className="mt-3 font-heading text-[clamp(2rem,4vw,3rem)] font-bold lg:text-[clamp(1.75rem,2.4vw,2.5rem)] leading-display tracking-tightest"
             >
               {client.name}
             </h2>
@@ -87,7 +87,7 @@ function ClientSection({ client, shaded, openVideo }) {
             </p>
           </div>
         </div>
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-9">
           {count === 0 && (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3" aria-hidden="true">
               {[0, 1, 2].map((i) => (
