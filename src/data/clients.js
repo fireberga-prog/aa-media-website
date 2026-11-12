@@ -117,6 +117,14 @@ export const clients = [
         length: "short",
       },
       {
+        id: "cc-three-things-to-expect",
+        title: "Three things to expect when coming to Children's Cove",
+        src: "/work/childrens-cove/three-things-to-expect.mp4",
+        poster: "/work/childrens-cove/three-things-to-expect.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
+      {
         id: "cc-circle-of-security",
         title: "Circle of Security",
         src: "/work/childrens-cove/cosp.mp4",
