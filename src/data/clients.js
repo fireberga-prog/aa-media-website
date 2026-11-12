@@ -40,6 +40,7 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/thanksgiving-mission.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 1,
       },
       {
         id: "csfp-thanksgiving",
@@ -58,7 +59,6 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/same-mission.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 1,
       },
       {
         id: "csfp-ride-and-stride-event",
