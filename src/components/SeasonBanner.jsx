@@ -1,17 +1,24 @@
-import { getClient, videosFor } from "../data/clients.js";
+import { allVideos } from "../data/clients.js";
 import { isThanksgivingSeason } from "../data/season.js";
 import { useVideoModal } from "./VideoModal.jsx";
 
-// The videos the banner link plays, in order (Centre Street Food Pantry).
-const THANKSGIVING_VIDEOS = ["csfp-thanksgiving-mission", "csfp-thanksgiving"];
+// November highlights the banner link plays, in order. A mix of clients;
+// any id that no longer exists is skipped.
+const HIGHLIGHT_VIDEOS = [
+  "csfp-thanksgiving-mission", // Centre Street: Bringing Thanksgiving to every table
+  "cc-three-things-to-expect", // Children's Cove: Three things to expect
+  "ntc-jen-interview", // Newton Tree Conservancy: Jen
+  "csfp-thanksgiving", // Centre Street: Thanksgiving at the pantry
+  "cc-circle-of-security", // Children's Cove: Circle of Security
+  "ntc-dan-interview", // Newton Tree Conservancy: Dan
+];
 
-// Thin holiday strip above the nav. Shows only during the season.
+// Holiday strip above the nav. Shows only during the season.
 export default function SeasonBanner() {
   const [openVideo, modal] = useVideoModal();
   if (!isThanksgivingSeason()) return null;
 
-  const all = videosFor(getClient("centre-street-food-pantry"));
-  const list = THANKSGIVING_VIDEOS.map((id) => all.find((v) => v.id === id)).filter(Boolean);
+  const list = HIGHLIGHT_VIDEOS.map((id) => allVideos.find((v) => v.id === id)).filter(Boolean);
 
   return (
     <div className="on-dark bg-ink px-4 py-3 text-center text-sm font-semibold text-white sm:py-3.5 sm:text-base">
@@ -24,7 +31,7 @@ export default function SeasonBanner() {
           onClick={() => openVideo(list, 0)}
           className="whitespace-nowrap font-semibold text-[#F2A63A] underline decoration-1 underline-offset-4 hover:text-white"
         >
-          Watch our Thanksgiving work
+          Watch some of our November highlights
         </button>
       )}
       {modal}
