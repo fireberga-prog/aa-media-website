@@ -136,6 +136,7 @@ export const clients = [
         poster: "/work/childrens-cove/three-things-to-expect.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 2,
       },
       {
         id: "cc-circle-of-security",
@@ -168,7 +169,6 @@ export const clients = [
         poster: "/work/childrens-cove/pass-the-phone.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 2,
       },
     ],
   },
