@@ -106,6 +106,7 @@ export const clients = [
         poster: "/work/newton-tree-conservancy/jen-interview.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 3,
       },
       {
         id: "ntc-dan-interview",
@@ -214,7 +215,6 @@ export const clients = [
         poster: "/work/impactidol/impactidol-1.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 3,
       },
     ],
   },
