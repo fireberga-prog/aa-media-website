@@ -14,7 +14,7 @@ export default function SeasonBanner() {
   const list = THANKSGIVING_VIDEOS.map((id) => all.find((v) => v.id === id)).filter(Boolean);
 
   return (
-    <div className="on-dark bg-ink px-4 py-2 text-center text-[13px] font-semibold text-white sm:text-sm">
+    <div className="on-dark bg-ink px-4 py-3 text-center text-sm font-semibold text-white sm:py-3.5 sm:text-base">
       <span aria-hidden="true">🍂 </span>
       Happy Thanksgiving from A&amp;A Media.{" "}
       <span className="hidden sm:inline">We're grateful for all the people we got to help this year. </span>

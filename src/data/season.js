@@ -2,8 +2,9 @@
 // Seasonal theme. It turns itself on and off by date, so there is nothing to
 // undo after the holiday. To turn it off early, set `enabled: false`.
 //
-// While it is on, a thin "Happy Thanksgiving" banner shows above the nav
-// (src/components/SeasonBanner.jsx).
+// While it is on, a "Happy Thanksgiving" banner shows above the nav
+// (src/components/SeasonBanner.jsx) and leaves drift down behind the Home
+// hero (src/components/FallingLeaves.jsx).
 
 export const THANKSGIVING = {
   enabled: true,
