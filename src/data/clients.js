@@ -66,7 +66,6 @@ export const clients = [
         poster: "/work/centre-street-food-pantry/ride-and-stride-event.jpg",
         orientation: "vertical",
         length: "short",
-        featured: 4,
       },
       {
         id: "csfp-ride-and-stride-promo",
@@ -124,6 +123,7 @@ export const clients = [
         poster: "/work/newton-tree-conservancy/november-planting.jpg",
         orientation: "vertical",
         length: "short",
+        featured: 4,
       },
       {
         id: "ntc-benefits",

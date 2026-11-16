@@ -4,7 +4,7 @@
 #   npm run videos
 #
 # For each .mp4 / .mov without a matching `<name>.optimized` marker it:
-#   - re-encodes to H.264 (CRF 27, preset slow), max 1080 px on the long side,
+#   - re-encodes to H.264 (CRF 22, preset slow), max 1080 px on the short side,
 #     AAC 128k audio, with +faststart so playback starts before the download ends
 #   - writes a poster `<name>.jpg` from the frame at 1s (only if none exists)
 #   - writes a 4 second muted 480p hover preview `<name>.preview.mp4`
@@ -62,11 +62,12 @@ while IFS= read -r -d '' src; do
   mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
   cp -p "$src" "$BACKUP_DIR/$rel"
 
-  # Full video: cap the long side at 1080 px, keep even dimensions for H.264.
+  # Full video: cap the SHORT side at 1080 px (vertical stays 1080x1920),
+  # keep even dimensions for H.264.
   "$FFMPEG" -nostdin -hide_banner -loglevel error -y -i "$src" \
     -map 0:v:0 -map 0:a:0? \
-    -vf "scale=w='min(1080,iw)':h='min(1080,ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
-    -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p \
+    -vf "scale='if(gt(iw,ih),-2,min(1080,iw))':'if(gt(iw,ih),min(1080,ih),-2)':flags=lanczos,scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+    -c:v libx264 -crf 22 -maxrate 5M -bufsize 10M -preset slow -pix_fmt yuv420p \
     -c:a aac -b:a 128k \
     -movflags +faststart \
     "$tmp"
