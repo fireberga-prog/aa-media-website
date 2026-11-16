@@ -125,6 +125,14 @@ export const clients = [
         orientation: "vertical",
         length: "short",
       },
+      {
+        id: "ntc-benefits",
+        title: "Benefits of planting trees",
+        src: "/work/newton-tree-conservancy/benefits.mp4",
+        poster: "/work/newton-tree-conservancy/benefits.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
     ],
   },
   {
