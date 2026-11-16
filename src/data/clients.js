@@ -117,6 +117,14 @@ export const clients = [
         length: "short",
         featured: 5,
       },
+      {
+        id: "ntc-november-planting",
+        title: "November planting with Joe",
+        src: "/work/newton-tree-conservancy/november-planting.mp4",
+        poster: "/work/newton-tree-conservancy/november-planting.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
     ],
   },
   {

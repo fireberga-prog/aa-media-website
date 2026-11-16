@@ -6,11 +6,8 @@ import { useVideoModal } from "./VideoModal.jsx";
 // any id that no longer exists is skipped.
 const HIGHLIGHT_VIDEOS = [
   "csfp-thanksgiving-mission", // Centre Street: Bringing Thanksgiving to every table
-  "cc-three-things-to-expect", // Children's Cove: Three things to expect
-  "ntc-jen-interview", // Newton Tree Conservancy: Jen
   "csfp-thanksgiving", // Centre Street: Thanksgiving at the pantry
-  "cc-circle-of-security", // Children's Cove: Circle of Security
-  "ntc-dan-interview", // Newton Tree Conservancy: Dan
+  "ntc-november-planting", // Newton Tree Conservancy: November planting
 ];
 
 // Holiday strip above the nav. Shows only during the season.
