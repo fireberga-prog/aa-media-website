@@ -133,6 +133,14 @@ export const clients = [
         orientation: "vertical",
         length: "short",
       },
+      {
+        id: "ntc-community",
+        title: "What happens when Newton plants together",
+        src: "/work/newton-tree-conservancy/community.mp4",
+        poster: "/work/newton-tree-conservancy/community.jpg",
+        orientation: "vertical",
+        length: "short",
+      },
     ],
   },
   {
